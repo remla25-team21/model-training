@@ -23,6 +23,6 @@ def train_and_save_model(data_path, model_path, test_size=0.2, random_state=0):
 
 if __name__ == "__main__":
     train_and_save_model(
-        data_path="a1_RestaurantReviews_HistoricDump.tsv",
+        data_path="data/a1_RestaurantReviews_HistoricDump.tsv",
         model_path="sentiment_model.pkl",
     )
