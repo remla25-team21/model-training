@@ -1,0 +1,36 @@
+name: Train and Release Model
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install git+https://github.com/remla25-team21/lib-ml.git@v0.0.5
+          pip install -r requirements.txt
+
+      - name: Train the model
+        run: python train_model.py
+
+      - name: Upload model as release asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            sentiment_model.pkl
+            ../c1_BoW_Sentiment_Model.pkl
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
