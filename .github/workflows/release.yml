@@ -31,6 +31,6 @@ jobs:
         with:
           files: |
             sentiment_model.pkl
-            ../c1_BoW_Sentiment_Model.pkl
+            c1_BoW_Sentiment_Model.pkl
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
