@@ -50,6 +50,8 @@ jobs:
 
       - name: Upload trained model
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: ./artifacts/sentiment_model_${{ github.ref_name }}.pkl
@@ -58,6 +60,8 @@ jobs:
 
       - name: Upload vectorizer
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: ./artifacts/c1_BoW_Sentiment_Model_${{ github.ref_name }}.pkl
