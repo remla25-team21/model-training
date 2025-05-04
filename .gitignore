@@ -1,0 +1,6 @@
+# Ignore model artifacts
+artifacts/
+sentiment_model_*.pkl
+c1_BoW_Sentiment_Model_*.pkl
+
+.DS_Store
