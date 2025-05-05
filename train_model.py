@@ -1,7 +1,7 @@
 import os
 import pickle
 from libml.preprocessing import preprocess_train
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
 
 def train_and_save_model(data_path, version_tag, test_size=0.2, random_state=0):
     os.makedirs("artifacts", exist_ok=True)
@@ -18,7 +18,7 @@ def train_and_save_model(data_path, version_tag, test_size=0.2, random_state=0):
     )
 
     # Train
-    model = GaussianNB()
+    model = MultinomialNB()
     model.fit(X_train, y_train)
 
     # Evaluate
