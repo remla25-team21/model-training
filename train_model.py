@@ -34,7 +34,7 @@ def train_and_save_model(data_path, version_tag, test_size=0.2, random_state=0):
     # Evaluate
     accuracy = model.score(X_test, y_test)
     print(f"Model accuracy on test set: {accuracy:.2f}")
-    print("Classification Report:")
+    print("Classification report:")
     print(classification_report(y_test, model.predict(X_test)))
 
     # Save
