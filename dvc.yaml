@@ -5,8 +5,10 @@ stages:
       - src/preprocess.py
       - data/raw/a1_RestaurantReviews_HistoricDump.tsv
     outs:
-      - artifacts/preprocessed_data.pkl
-      - artifacts/c1_BoW_Sentiment_Model.pkl
+      - artifacts/preprocessed_data.pkl:
+          cache: false
+      - artifacts/c1_BoW_Sentiment_Model.pkl:
+          cache: false
 
   train:
     cmd: python src/train.py
@@ -20,7 +22,8 @@ stages:
       - train.grid_search.max_depth
       - train.cross_validation
     outs:
-      - artifacts/trained_model.pkl
+      - artifacts/trained_model.pkl:
+          cache: false
 
   evaluate:
     cmd: python src/evaluate.py
@@ -29,7 +32,8 @@ stages:
       - artifacts/trained_model.pkl
       - artifacts/preprocessed_data.pkl
     outs:
-      - artifacts/sentiment_model.pkl
+      - artifacts/sentiment_model.pkl:
+          cache: false
     metrics:
       - artifacts/metrics.json:
           cache: false
