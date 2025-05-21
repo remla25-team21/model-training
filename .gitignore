@@ -1,6 +1,32 @@
 # Ignore model artifacts
-artifacts/
 sentiment_model_*.pkl
 c1_BoW_Sentiment_Model_*.pkl
+preprocessed_data_*.pkl
+trained_model_*.pkl
+metrics_*.json
+
+# DVC files
+artifacts
+*.tsv
 
 .DS_Store
+
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite
+*.egg-info
+*.egg
+*.log
+*.csv
+*.json
+*.h5
+*.pt
+*.pth
+*.onnx
+*.zip
+*.tar.gz
+*.tar
+*.tgz

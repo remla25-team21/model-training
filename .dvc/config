@@ -1,0 +1,8 @@
+[cache]
+    dir = cache
+[core]
+    analytics = false
+    remote = storage
+    autostage = true
+['remote "storage"']
+    url = gdrive://11NAhoKJ-QKsZYjj94jvn3tOlruij9s31

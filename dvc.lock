@@ -1,0 +1,91 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/raw/a1_RestaurantReviews_HistoricDump.tsv
+      hash: md5
+      md5: 102f1f4193e0bdebdd6cce7f13e0a839
+      size: 54686
+      isexec: true
+    - path: src/preprocess.py
+      hash: md5
+      md5: 2f29e8d73c868cb63d27e8dfad6e5b68
+      size: 1462
+      isexec: true
+    outs:
+    - path: artifacts/c1_BoW_Sentiment_Model.pkl
+      hash: md5
+      md5: e4f6754b3be73bbcc7c9bbdc8ae77869
+      size: 39832
+      isexec: true
+    - path: artifacts/preprocessed_data.pkl
+      hash: md5
+      md5: 25f6d837d7e6aaa648158a5d45175521
+      size: 10231517
+      isexec: true
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: artifacts/preprocessed_data.pkl
+      hash: md5
+      md5: 25f6d837d7e6aaa648158a5d45175521
+      size: 10231517
+      isexec: true
+    - path: params.yaml
+      hash: md5
+      md5: 8be7069a3464de6c5107f2e9bda200f7
+      size: 125
+      isexec: true
+    - path: src/train.py
+      hash: md5
+      md5: b7e088a26ba173739de95bc41a55d914
+      size: 2121
+      isexec: true
+    params:
+      params.yaml:
+        train.cross_validation: 5
+        train.grid_search.max_depth:
+        - 
+        - 10
+        - 20
+        train.grid_search.n_estimators:
+        - 50
+        - 100
+        - 200
+        train.random_state: 42
+    outs:
+    - path: artifacts/trained_model.pkl
+      hash: md5
+      md5: 5ca2e1c90dfd9bc5cd54cded9d6caa6d
+      size: 8203440
+      isexec: true
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: artifacts/preprocessed_data.pkl
+      hash: md5
+      md5: 25f6d837d7e6aaa648158a5d45175521
+      size: 10231517
+      isexec: true
+    - path: artifacts/trained_model.pkl
+      hash: md5
+      md5: 5ca2e1c90dfd9bc5cd54cded9d6caa6d
+      size: 8203440
+      isexec: true
+    - path: src/evaluate.py
+      hash: md5
+      md5: fd6b244a014c69db3ebb32da24bee658
+      size: 2266
+      isexec: true
+    outs:
+    - path: artifacts/metrics.json
+      hash: md5
+      md5: 3ec994b29e368eb78799b69672e73729
+      size: 945
+      isexec: true
+    - path: artifacts/sentiment_model.pkl
+      hash: md5
+      md5: 5ca2e1c90dfd9bc5cd54cded9d6caa6d
+      size: 8203440
+      isexec: true
