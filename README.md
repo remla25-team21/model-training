@@ -84,6 +84,8 @@ To view all experiments:
 dvc exp show
 ```
 
+For more details on collaborating with DVC, refer to [./docs/dvc-ref.md](./docs/dvc-ref.md).
+
 ## Manual Training
 
 If you prefer to run each stage manually:
