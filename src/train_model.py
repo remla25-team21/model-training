@@ -46,6 +46,6 @@ def train_and_save_model(data_path, version_tag, test_size=0.2, random_state=0):
 if __name__ == "__main__":
     tag = os.getenv("GITHUB_REF_NAME", "local")
     train_and_save_model(
-        data_path="data/a1_RestaurantReviews_HistoricDump.tsv",
+        data_path="data/raw/a1_RestaurantReviews_HistoricDump.tsv",
         version_tag=tag
     )
