@@ -1,0 +1,29 @@
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/raw/a1_RestaurantReviews_HistoricDump.tsv
+    outs:
+      - artifacts/preprocessed_data_local.pkl
+      - artifacts/c1_BoW_Sentiment_Model_local.pkl
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - artifacts/preprocessed_data_local.pkl
+    outs:
+      - artifacts/trained_model_local.pkl
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - artifacts/trained_model_local.pkl
+      - artifacts/preprocessed_data_local.pkl
+    outs:
+      - artifacts/sentiment_model_local.pkl
+    metrics:
+      - artifacts/metrics_local.json:
+          cache: false

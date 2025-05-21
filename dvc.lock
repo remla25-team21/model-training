@@ -1,0 +1,74 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/raw/a1_RestaurantReviews_HistoricDump.tsv
+      hash: md5
+      md5: 102f1f4193e0bdebdd6cce7f13e0a839
+      size: 54686
+      isexec: true
+    - path: src/preprocess.py
+      hash: md5
+      md5: 37543de18d9190e9202e46c469610e3a
+      size: 1629
+      isexec: true
+    outs:
+    - path: artifacts/c1_BoW_Sentiment_Model_local.pkl
+      hash: md5
+      md5: 05c42f6c33ac816bb0aa6143ccfd7358
+      size: 39832
+      isexec: true
+    - path: artifacts/preprocessed_data_local.pkl
+      hash: md5
+      md5: 25f6d837d7e6aaa648158a5d45175521
+      size: 10231517
+      isexec: true
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: artifacts/preprocessed_data_local.pkl
+      hash: md5
+      md5: 25f6d837d7e6aaa648158a5d45175521
+      size: 10231517
+      isexec: true
+    - path: src/train.py
+      hash: md5
+      md5: 8f7513145ce31667b58f3da3c9371ef6
+      size: 1728
+      isexec: true
+    outs:
+    - path: artifacts/trained_model_local.pkl
+      hash: md5
+      md5: 5078f7dfb3340a0b1c07939e049073f1
+      size: 8263600
+      isexec: true
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: artifacts/preprocessed_data_local.pkl
+      hash: md5
+      md5: 25f6d837d7e6aaa648158a5d45175521
+      size: 10231517
+      isexec: true
+    - path: artifacts/trained_model_local.pkl
+      hash: md5
+      md5: 5078f7dfb3340a0b1c07939e049073f1
+      size: 8263600
+      isexec: true
+    - path: src/evaluate.py
+      hash: md5
+      md5: dc06654a9b1c85a7148c9516a2d60cf3
+      size: 2552
+      isexec: true
+    outs:
+    - path: artifacts/metrics_local.json
+      hash: md5
+      md5: 8ec61caac184b9d8348380d828b81171
+      size: 1006
+      isexec: true
+    - path: artifacts/sentiment_model_local.pkl
+      hash: md5
+      md5: 4f12d49961bc98c6ed042e4ca4cea222
+      size: 8263644
+      isexec: true
