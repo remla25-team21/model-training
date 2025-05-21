@@ -32,11 +32,28 @@ stages:
       md5: 25f6d837d7e6aaa648158a5d45175521
       size: 10231517
       isexec: true
+    - path: params.yaml
+      hash: md5
+      md5: 0a70c2543be35970f94bef05b70e4165
+      size: 124
+      isexec: true
     - path: src/train.py
       hash: md5
-      md5: 8f7513145ce31667b58f3da3c9371ef6
-      size: 1728
+      md5: 50b7cc3d5dba09794ad6a8bb85292c59
+      size: 2280
       isexec: true
+    params:
+      params.yaml:
+        train.cross_validation: 5
+        train.grid_search.max_depth:
+        - 
+        - 10
+        - 20
+        train.grid_search.n_estimators:
+        - 50
+        - 100
+        - 200
+        train.random_state: 0
     outs:
     - path: artifacts/trained_model_local.pkl
       hash: md5
