@@ -2,7 +2,7 @@
 
 > [!important]
 >
-> Never include sensitive information such as `gdrive_client_id` or `gdrive_client_secret` in `.dvc/config`**. Instead, store them in** ``.dvc/config.local` **or use environment variables for secure management.**
+> Never include sensitive information such as `gdrive_client_id` or `gdrive_client_secret` in `.dvc/config`**. Instead, store them in** `.dvc/config.local` **or use environment variables for secure management.**
 
 ## 🧩 Components of Team Collaboration
 
