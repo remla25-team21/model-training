@@ -1,9 +1,10 @@
 import os
 import pickle
+import yaml
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 
-def train_model(preprocessed_data_path, version_tag, random_state=0):
+def train_model(preprocessed_data_path, version_tag, random_state=None):
     """
     Train the model using the preprocessed data.
     
@@ -15,6 +16,17 @@ def train_model(preprocessed_data_path, version_tag, random_state=0):
     Returns:
         Path to the trained model
     """
+    # Load parameters from params.yaml
+    with open("params.yaml", "r") as params_file:
+        params = yaml.safe_load(params_file)
+    
+    # Get training parameters
+    train_params = params.get("train", {})
+    random_state = random_state if random_state is not None else train_params.get("random_state", 0)
+    n_estimators = train_params.get("grid_search", {}).get("n_estimators", [50, 100, 200])
+    max_depth = train_params.get("grid_search", {}).get("max_depth", [None, 10, 20])
+    cv = train_params.get("cross_validation", 5)
+    
     # Create artifacts directory if it doesn't exist
     os.makedirs("artifacts", exist_ok=True)
     
@@ -30,14 +42,14 @@ def train_model(preprocessed_data_path, version_tag, random_state=0):
     
     # Hyperparameter grid for Random Forest
     param_grid = {
-        "n_estimators": [50, 100, 200],
-        "max_depth": [None, 10, 20],
+        "n_estimators": n_estimators,
+        "max_depth": max_depth,
         "random_state": [random_state]
     }
     
     # Grid search
     print("Starting model training with grid search...")
-    grid = GridSearchCV(RandomForestClassifier(), param_grid, cv=5, n_jobs=-1, verbose=1)
+    grid = GridSearchCV(RandomForestClassifier(), param_grid, cv=cv, n_jobs=-1, verbose=1)
     grid.fit(X_train, y_train)
     model = grid.best_estimator_
     

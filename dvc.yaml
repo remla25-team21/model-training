@@ -13,6 +13,12 @@ stages:
     deps:
       - src/train.py
       - artifacts/preprocessed_data_local.pkl
+      - params.yaml
+    params:
+      - train.random_state
+      - train.grid_search.n_estimators
+      - train.grid_search.max_depth
+      - train.cross_validation
     outs:
       - artifacts/trained_model_local.pkl
 

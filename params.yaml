@@ -1,0 +1,6 @@
+train:
+  random_state: 0
+  grid_search:
+    n_estimators: [50, 100, 200]
+    max_depth: [null, 10, 20]
+  cross_validation: 5
