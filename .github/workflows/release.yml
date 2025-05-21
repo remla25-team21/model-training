@@ -22,13 +22,23 @@ jobs:
         run: |
           pip install git+https://github.com/remla25-team21/lib-ml.git@v0.0.6
           pip install -r requirements.txt
-          pip install dvc
+          pip install dvc dvc-gdrive
 
-      - name: Run DVC pipeline
+      - name: Configure DVC
+        env:
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+        run: |
+          dvc remote modify storage gdrive_client_id $GDRIVE_CLIENT_ID --local
+          dvc remote modify storage gdrive_client_secret $GDRIVE_CLIENT_SECRET --local
+
+      - name: Pull DVC data
+        run: dvc pull
+
+      - name: Train the model with DVC
         env:
           GITHUB_REF_NAME: ${{ github.ref_name }}
-        run: |
-          dvc repro
+        run: dvc repro
 
       - name: Create release (if not already created)
         uses: softprops/action-gh-release@v1
@@ -69,7 +79,7 @@ jobs:
           asset_path: ./artifacts/c1_BoW_Sentiment_Model_${{ github.ref_name }}.pkl
           asset_name: c1_BoW_Sentiment_Model_${{ github.ref_name }}.pkl
           asset_content_type: application/octet-stream
-          
+
       - name: Upload metrics
         uses: actions/upload-release-asset@v1
         env:
