@@ -22,23 +22,6 @@ jobs:
         run: |
           pip install git+https://github.com/remla25-team21/lib-ml.git@v0.0.6
           pip install -r requirements.txt
-          pip install dvc dvc-gdrive
-
-      - name: Configure DVC
-        env:
-          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
-          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
-        run: |
-          dvc remote modify storage gdrive_client_id $GDRIVE_CLIENT_ID --local
-          dvc remote modify storage gdrive_client_secret $GDRIVE_CLIENT_SECRET --local
-
-      - name: Pull DVC data
-        run: dvc pull
-
-      - name: Train the model with DVC
-        env:
-          GITHUB_REF_NAME: ${{ github.ref_name }}
-        run: dvc repro
 
       - name: Create release (if not already created)
         uses: softprops/action-gh-release@v1
@@ -47,45 +30,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get release upload URL
-        id: get_release
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const tag = context.ref.split("/").pop();
-            const release = await github.rest.repos.getReleaseByTag({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag: tag,
-            });
-            core.setOutput("upload_url", release.data.upload_url);
-
-      - name: Upload trained model
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./artifacts/sentiment_model_${{ github.ref_name }}.pkl
-          asset_name: sentiment_model_${{ github.ref_name }}.pkl
-          asset_content_type: application/octet-stream
-
-      - name: Upload vectorizer
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./artifacts/c1_BoW_Sentiment_Model_${{ github.ref_name }}.pkl
-          asset_name: c1_BoW_Sentiment_Model_${{ github.ref_name }}.pkl
-          asset_content_type: application/octet-stream
-
-      - name: Upload metrics
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./artifacts/metrics_${{ github.ref_name }}.json
-          asset_name: metrics_${{ github.ref_name }}.json
-          asset_content_type: application/json
