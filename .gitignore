@@ -8,6 +8,7 @@ metrics_*.json
 
 # DVC files
 /artifacts.dvc
+*.tsv
 
 .DS_Store
 
