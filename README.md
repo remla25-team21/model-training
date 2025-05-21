@@ -24,8 +24,8 @@ This repository contains the training pipeline for the sentiment analysis model 
 > 3. (Optional) Configure DVC remote storage (only needed if you want to push changes to the remote storage or if `dvc pull` doesn't work without authentication)
 >
 > ```bash
-> dvc remote modify storage gdrive_client_id <xxx> --local  # Replace <xxx> with your Google Drive client ID
-> dvc remote modify storage gdrive_client_secret <xxx> --local  # Replace <xxx> with your Google Drive client secret
+> dvc remote modify storage --local gdrive_use_service_account true
+> dvc remote modify storage --local [gdrive_service_account_json_file_path]  # Replace with your Google Drive service account JSON file path
 > ```
 >
 > 4. Pull the data from remote storage or download it directly (see [Troubleshooting](#troubleshooting) section if facing issues)
@@ -59,8 +59,8 @@ The training process is now divided into three stages using DVC:
 To configure the DVC pipeline, run:
 
 ```bash
-dvc remote modify storage gdrive_client_id <xxx> --local  # Replace <xxx> with your Google Drive client ID
-dvc remote modify storage gdrive_client_secret <xxx> --local  # Replace <xxx> with your Google Drive client secret
+dvc remote modify storage --local gdrive_use_service_account true
+dvc remote modify storage --local [gdrive_service_account_json_file_path]  # Replace with your Google Drive service account JSON file path
 ```
 
 To pull the data from the remote storage:

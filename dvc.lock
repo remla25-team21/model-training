@@ -16,7 +16,7 @@ stages:
     outs:
     - path: artifacts/c1_BoW_Sentiment_Model.pkl
       hash: md5
-      md5: bc5d961d3bbd44ee6ba0952f46cc5bcc
+      md5: 7ec198f6a6dacda5803c5476bc209cc7
       size: 39832
       isexec: true
     - path: artifacts/preprocessed_data.pkl
