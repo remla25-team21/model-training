@@ -57,10 +57,7 @@ def evaluate_model(trained_model_path, preprocessed_data_path, version_tag):
     final_model_path = f"artifacts/sentiment_model_{version_tag}.pkl"
     
     # Copy the trained model to the final model path
-    with open(trained_model_path, "rb") as src:
-        model_data = pickle.load(src)
-        with open(final_model_path, "wb") as dst:
-            pickle.dump(model_data, dst)
+    shutil.copyfile(trained_model_path, final_model_path)
     
     print(f"Model accuracy on test set: {accuracy:.2f}")
     print("Classification report:")
