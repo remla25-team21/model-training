@@ -22,11 +22,13 @@ jobs:
         run: |
           pip install git+https://github.com/remla25-team21/lib-ml.git@v0.0.6
           pip install -r requirements.txt
+          pip install dvc
 
-      - name: Train the model
+      - name: Run DVC pipeline
         env:
           GITHUB_REF_NAME: ${{ github.ref_name }}
-        run: python train_model.py
+        run: |
+          dvc repro
 
       - name: Create release (if not already created)
         uses: softprops/action-gh-release@v1
@@ -67,3 +69,13 @@ jobs:
           asset_path: ./artifacts/c1_BoW_Sentiment_Model_${{ github.ref_name }}.pkl
           asset_name: c1_BoW_Sentiment_Model_${{ github.ref_name }}.pkl
           asset_content_type: application/octet-stream
+          
+      - name: Upload metrics
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./artifacts/metrics_${{ github.ref_name }}.json
+          asset_name: metrics_${{ github.ref_name }}.json
+          asset_content_type: application/json
