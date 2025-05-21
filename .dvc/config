@@ -1,3 +1,6 @@
+[cache]
+    dir = .dvc/cache
+    type = symlink
 [core]
     analytics = false
     remote = storage
