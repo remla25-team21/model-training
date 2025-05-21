@@ -32,16 +32,33 @@ stages:
       md5: 25f6d837d7e6aaa648158a5d45175521
       size: 10231517
       isexec: true
+    - path: params.yaml
+      hash: md5
+      md5: 8be7069a3464de6c5107f2e9bda200f7
+      size: 125
+      isexec: true
     - path: src/train.py
       hash: md5
-      md5: 8f7513145ce31667b58f3da3c9371ef6
-      size: 1728
+      md5: 50b7cc3d5dba09794ad6a8bb85292c59
+      size: 2280
       isexec: true
+    params:
+      params.yaml:
+        train.cross_validation: 5
+        train.grid_search.max_depth:
+        - 
+        - 10
+        - 20
+        train.grid_search.n_estimators:
+        - 50
+        - 100
+        - 200
+        train.random_state: 42
     outs:
     - path: artifacts/trained_model_local.pkl
       hash: md5
-      md5: 5078f7dfb3340a0b1c07939e049073f1
-      size: 8263600
+      md5: 5ca2e1c90dfd9bc5cd54cded9d6caa6d
+      size: 8203440
       isexec: true
   evaluate:
     cmd: python src/evaluate.py
@@ -53,8 +70,8 @@ stages:
       isexec: true
     - path: artifacts/trained_model_local.pkl
       hash: md5
-      md5: 5078f7dfb3340a0b1c07939e049073f1
-      size: 8263600
+      md5: 5ca2e1c90dfd9bc5cd54cded9d6caa6d
+      size: 8203440
       isexec: true
     - path: src/evaluate.py
       hash: md5
@@ -64,11 +81,11 @@ stages:
     outs:
     - path: artifacts/metrics_local.json
       hash: md5
-      md5: 8ec61caac184b9d8348380d828b81171
-      size: 1006
+      md5: 3ec994b29e368eb78799b69672e73729
+      size: 945
       isexec: true
     - path: artifacts/sentiment_model_local.pkl
       hash: md5
-      md5: 4f12d49961bc98c6ed042e4ca4cea222
-      size: 8263644
+      md5: 2e5d0d954382d62887ebea9796eccfc6
+      size: 8203484
       isexec: true
