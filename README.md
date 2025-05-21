@@ -21,7 +21,7 @@ This repository contains the training pipeline for the sentiment analysis model 
 > pip install -r requirements.txt
 > ```
 >
-> 3. (Optional) Configure DVC remote storage
+> 3. (Optional) Configure DVC remote storage (only needed if you want to push changes to the remote storage or if `dvc pull` doesn't work without authentication)
 >
 > ```bash
 > dvc remote modify storage gdrive_client_id <xxx> --local  # Replace <xxx> with your Google Drive client ID
