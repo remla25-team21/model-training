@@ -1,35 +1,44 @@
 # model-training
 
-This repository contains the training pipeline for the sentiment analysis model used in our REMLA project. 
+This repository contains the training pipeline for the sentiment analysis model used in our REMLA project.
 
-- It uses the [lib-ml](https://github.com/remla25-team21/lib-ml) library for data preprocessing and saves the trained model (`sentiment_model_*.pkl`) as a release artifact. 
+- It uses the [lib-ml](https://github.com/remla25-team21/lib-ml) library for data preprocessing and saves the trained model (`sentiment_model_*.pkl`) as a release artifact.
 - The training dataset can be found in `data/raw/a1_RestaurantReviews_HistoricDump.tsv`.
 - The project now uses [DVC](https://dvc.org/) (Data Version Control) to track data, models, and metrics.
 
 > [!NOTE]
-> TL;DR: 
+> TL;DR:
+>
 > 1. Clone the repository
+>
 > ```bash
 > git clone https://github.com/remla25-team21/model-training.git
 > ```
+>
 > 2. Install the required dependencies
+>
 > ```bash
 > pip install -r requirements.txt
 > ```
-> 3. Configure DVC remote storage
+>
+> 3. (Optional) Configure DVC remote storage
+>
 > ```bash
 > dvc remote modify storage gdrive_client_id <xxx> --local  # Replace <xxx> with your Google Drive client ID
 > dvc remote modify storage gdrive_client_secret <xxx> --local  # Replace <xxx> with your Google Drive client secret
 > ```
-> 4. Pull the data from remote storage
+>
+> 4. Pull the data from remote storage or download it directly (see [Troubleshooting](#troubleshooting) section if facing issues)
+>
 > ```bash
 > dvc pull
 > ```
+>
 > 5. Run the pipeline
+>
 > ```bash
 > dvc repro
 > ```
-
 
 ## Dependencies
 
@@ -85,6 +94,27 @@ dvc exp show
 ```
 
 For more details on collaborating with DVC, refer to [./docs/dvc-ref.md](./docs/dvc-ref.md).
+
+## Troubleshooting
+
+### Google Authentication Issues
+
+If you encounter "This app is blocked" error during Google authentication when using DVC with Google Drive, you can download the dataset directly using one of these methods:
+
+#### Linux/macOS
+```bash
+wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1mrWUgJlRCf_n_TbxPuuthJ9YsTBwGuRh' -O ./data/raw/a1_RestaurantReviews_HistoricDump.tsv
+```
+
+#### Windows (PowerShell)
+```powershell
+Invoke-WebRequest -Uri "https://drive.google.com/uc?export=download&id=1mrWUgJlRCf_n_TbxPuuthJ9YsTBwGuRh" -OutFile "./data/raw/a1_RestaurantReviews_HistoricDump.tsv"
+```
+
+After downloading the dataset directly, you can proceed with the pipeline by running:
+```bash
+dvc repro
+```
 
 ## Manual Training
 

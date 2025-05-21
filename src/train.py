@@ -4,13 +4,12 @@ import yaml
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 
-def train_model(preprocessed_data_path, version_tag, random_state=None):
+def train_model(preprocessed_data_path, random_state=None):
     """
     Train the model using the preprocessed data.
     
     Args:
         preprocessed_data_path: Path to the preprocessed data
-        version_tag: Version tag for the artifacts
         random_state: Random state for reproducibility
         
     Returns:
@@ -31,7 +30,7 @@ def train_model(preprocessed_data_path, version_tag, random_state=None):
     os.makedirs("artifacts", exist_ok=True)
     
     # Define path for saving model
-    model_path = f"artifacts/trained_model_{version_tag}.pkl"
+    model_path = "artifacts/trained_model.pkl"
     
     # Load preprocessed data
     with open(preprocessed_data_path, "rb") as f:
@@ -63,8 +62,6 @@ def train_model(preprocessed_data_path, version_tag, random_state=None):
     return model_path
 
 if __name__ == "__main__":
-    tag = os.getenv("GITHUB_REF_NAME", "local")
     train_model(
-        preprocessed_data_path=f"artifacts/preprocessed_data_{tag}.pkl",
-        version_tag=tag
+        preprocessed_data_path="artifacts/preprocessed_data.pkl"
     )

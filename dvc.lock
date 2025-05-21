@@ -10,16 +10,16 @@ stages:
       isexec: true
     - path: src/preprocess.py
       hash: md5
-      md5: 37543de18d9190e9202e46c469610e3a
-      size: 1629
+      md5: 2f29e8d73c868cb63d27e8dfad6e5b68
+      size: 1462
       isexec: true
     outs:
-    - path: artifacts/c1_BoW_Sentiment_Model_local.pkl
+    - path: artifacts/c1_BoW_Sentiment_Model.pkl
       hash: md5
-      md5: 2434a22bc6febe903214f1dce7a491b4
+      md5: 38f66982aadcc0af6ef01df3ef5be4c1
       size: 39832
       isexec: true
-    - path: artifacts/preprocessed_data_local.pkl
+    - path: artifacts/preprocessed_data.pkl
       hash: md5
       md5: 25f6d837d7e6aaa648158a5d45175521
       size: 10231517
@@ -27,7 +27,7 @@ stages:
   train:
     cmd: python src/train.py
     deps:
-    - path: artifacts/preprocessed_data_local.pkl
+    - path: artifacts/preprocessed_data.pkl
       hash: md5
       md5: 25f6d837d7e6aaa648158a5d45175521
       size: 10231517
@@ -39,8 +39,8 @@ stages:
       isexec: true
     - path: src/train.py
       hash: md5
-      md5: 50b7cc3d5dba09794ad6a8bb85292c59
-      size: 2280
+      md5: b7e088a26ba173739de95bc41a55d914
+      size: 2121
       isexec: true
     params:
       params.yaml:
@@ -55,7 +55,7 @@ stages:
         - 200
         train.random_state: 42
     outs:
-    - path: artifacts/trained_model_local.pkl
+    - path: artifacts/trained_model.pkl
       hash: md5
       md5: 5ca2e1c90dfd9bc5cd54cded9d6caa6d
       size: 8203440
@@ -63,29 +63,29 @@ stages:
   evaluate:
     cmd: python src/evaluate.py
     deps:
-    - path: artifacts/preprocessed_data_local.pkl
+    - path: artifacts/preprocessed_data.pkl
       hash: md5
       md5: 25f6d837d7e6aaa648158a5d45175521
       size: 10231517
       isexec: true
-    - path: artifacts/trained_model_local.pkl
+    - path: artifacts/trained_model.pkl
       hash: md5
       md5: 5ca2e1c90dfd9bc5cd54cded9d6caa6d
       size: 8203440
       isexec: true
     - path: src/evaluate.py
       hash: md5
-      md5: dc06654a9b1c85a7148c9516a2d60cf3
-      size: 2552
+      md5: fd6b244a014c69db3ebb32da24bee658
+      size: 2266
       isexec: true
     outs:
-    - path: artifacts/metrics_local.json
+    - path: artifacts/metrics.json
       hash: md5
       md5: 3ec994b29e368eb78799b69672e73729
       size: 945
       isexec: true
-    - path: artifacts/sentiment_model_local.pkl
+    - path: artifacts/sentiment_model.pkl
       hash: md5
-      md5: 2e5d0d954382d62887ebea9796eccfc6
-      size: 8203484
+      md5: 5ca2e1c90dfd9bc5cd54cded9d6caa6d
+      size: 8203440
       isexec: true

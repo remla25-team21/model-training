@@ -2,13 +2,12 @@ import os
 import pickle
 from libml.preprocessing import preprocess_train
 
-def preprocess_data(data_path, version_tag, test_size=0.2, random_state=0):
+def preprocess_data(data_path, test_size=0.2, random_state=0):
     """
     Preprocess the data and save the intermediate results.
     
     Args:
         data_path: Path to the raw data file
-        version_tag: Version tag for the artifacts
         test_size: Test split size
         random_state: Random state for reproducibility
     
@@ -19,8 +18,8 @@ def preprocess_data(data_path, version_tag, test_size=0.2, random_state=0):
     os.makedirs("artifacts", exist_ok=True)
     
     # Define paths for saving preprocessing results
-    preprocessed_path = f"artifacts/preprocessed_data_{version_tag}.pkl"
-    vectorizer_path = f"artifacts/c1_BoW_Sentiment_Model_{version_tag}.pkl"
+    preprocessed_path = "artifacts/preprocessed_data.pkl"
+    vectorizer_path = "artifacts/c1_BoW_Sentiment_Model.pkl"
     
     # Preprocess and save vectorizer using lib-ml
     X_train, X_test, y_train, y_test = preprocess_train(
@@ -45,8 +44,6 @@ def preprocess_data(data_path, version_tag, test_size=0.2, random_state=0):
     return preprocessed_path
 
 if __name__ == "__main__":
-    tag = os.getenv("GITHUB_REF_NAME", "local")
     preprocess_data(
-        data_path="data/raw/a1_RestaurantReviews_HistoricDump.tsv",
-        version_tag=tag
+        data_path="data/raw/a1_RestaurantReviews_HistoricDump.tsv"
     )
