@@ -5,8 +5,8 @@ stages:
       - src/preprocess.py
       - data/raw/a1_RestaurantReviews_HistoricDump.tsv
     outs:
-      - artifacts/preprocessed_data_local.pkl
-      - artifacts/c1_BoW_Sentiment_Model_local.pkl
+      - artifacts/preprocessed_data_${version_tag}.pkl
+      - artifacts/c1_BoW_Sentiment_Model_${version_tag}.pkl
 
   train:
     cmd: python src/train.py
