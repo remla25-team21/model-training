@@ -1,0 +1,184 @@
+src\evaluate.py:7:1: E302 expected 2 blank lines, found 1
+def evaluate_model(trained_model_path, preprocessed_data_path):
+^
+src\evaluate.py:10:1: W293 blank line contains whitespace
+    """
+    Evaluate the model performance and save metrics.
+    
+    Args:
+        trained_model_path: Path to the trained model
+        preprocessed_data_path: Path to the preprocessed data
+        
+    Returns:
+        Path to the evaluation metrics file
+    """
+^
+src\evaluate.py:14:1: W293 blank line contains whitespace
+    """
+    Evaluate the model performance and save metrics.
+    
+    Args:
+        trained_model_path: Path to the trained model
+        preprocessed_data_path: Path to the preprocessed data
+        
+    Returns:
+        Path to the evaluation metrics file
+    """
+^
+src\evaluate.py:20:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:23:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:27:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:31:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:34:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:37:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:41:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:51:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:55:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:58:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:61:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:67:1: W293 blank line contains whitespace
+    
+^
+src\evaluate.py:70:1: E305 expected 2 blank lines after class or function definition, found 1
+if __name__ == "__main__":
+^
+src\evaluate.py:74:6: W292 no newline at end of file
+    )     ^
+src\preprocess.py:5:1: E302 expected 2 blank lines, found 1
+def preprocess_data(data_path, test_size=0.2, random_state=0):
+^
+src\preprocess.py:8:1: W293 blank line contains whitespace
+    """
+    Preprocess the data and save the intermediate results.
+    
+    Args:
+        data_path: Path to the raw data file
+        test_size: Test split size
+        random_state: Random state for reproducibility
+    
+    Returns:
+        Path to the preprocessed data
+    """
+^
+src\preprocess.py:13:1: W293 blank line contains whitespace
+    """
+    Preprocess the data and save the intermediate results.
+    
+    Args:
+        data_path: Path to the raw data file
+        test_size: Test split size
+        random_state: Random state for reproducibility
+    
+    Returns:
+        Path to the preprocessed data
+    """
+^
+src\preprocess.py:19:1: W293 blank line contains whitespace
+    
+^
+src\preprocess.py:23:1: W293 blank line contains whitespace
+    
+^
+src\preprocess.py:31:1: W293 blank line contains whitespace
+    
+^
+src\preprocess.py:40:1: W293 blank line contains whitespace
+    
+^
+src\preprocess.py:43:1: W293 blank line contains whitespace
+    
+^
+src\preprocess.py:46:1: E305 expected 2 blank lines after class or function definition, found 1
+if __name__ == "__main__":
+^
+src\preprocess.py:49:6: W292 no newline at end of file
+    )     ^
+src\train.py:7:1: E302 expected 2 blank lines, found 1
+def train_model(preprocessed_data_path, random_state=None):
+^
+src\train.py:10:1: W293 blank line contains whitespace
+    """
+    Train the model using the preprocessed data.
+    
+    Args:
+        preprocessed_data_path: Path to the preprocessed data
+        random_state: Random state for reproducibility
+        
+    Returns:
+        Path to the trained model
+    """
+^
+src\train.py:14:1: W293 blank line contains whitespace
+    """
+    Train the model using the preprocessed data.
+    
+    Args:
+        preprocessed_data_path: Path to the preprocessed data
+        random_state: Random state for reproducibility
+        
+    Returns:
+        Path to the trained model
+    """
+^
+src\train.py:21:1: W293 blank line contains whitespace
+    
+^
+src\train.py:28:1: W293 blank line contains whitespace
+    
+^
+src\train.py:31:1: W293 blank line contains whitespace
+    
+^
+src\train.py:34:1: W293 blank line contains whitespace
+    
+^
+src\train.py:38:1: W293 blank line contains whitespace
+    
+^
+src\train.py:41:1: W293 blank line contains whitespace
+    
+^
+src\train.py:48:1: W293 blank line contains whitespace
+    
+^
+src\train.py:54:1: W293 blank line contains whitespace
+    
+^
+src\train.py:58:1: W293 blank line contains whitespace
+    
+^
+src\train.py:61:1: W293 blank line contains whitespace
+    
+^
+src\train.py:64:1: E305 expected 2 blank lines after class or function definition, found 1
+if __name__ == "__main__":
+^
+src\train.py:67:6: W292 no newline at end of file
+    )     ^
+3     E302 expected 2 blank lines, found 1
+3     E305 expected 2 blank lines after class or function definition, found 1
+3     W292 no newline at end of file
+33    W293 blank line contains whitespace
+42
