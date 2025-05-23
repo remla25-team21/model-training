@@ -4,9 +4,12 @@ set -euo pipefail
 # Define the target directory
 TARGET_DIR="src"
 
-# Run Pylint and redirect output to pylint_output.txt
+# Ensure PYTHONPATH includes the current directory to find ml_smells_checker.py
+export PYTHONPATH="${PYTHONPATH:-$(pwd)}"
+
+# Run Pylint with custom ML smells plugin and redirect output to pylint_output.txt
 echo "Running Pylint..."
-pylint "$TARGET_DIR" > pylint_output.txt || true
+pylint --load-plugins=ml_smells_checker --rcfile=pylintrc "$TARGET_DIR" > pylint_output.txt || true
 echo "Pylint report saved to pylint_output.txt"
 
 # Run Flake8 and redirect output to flake8_output.txt

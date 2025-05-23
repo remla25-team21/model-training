@@ -8,3 +8,4 @@ pyyaml
 pylint
 flake8
 bandit
+astroid
