@@ -3,7 +3,6 @@ import pickle
 import pytest
 import numpy as np
 
-
 @pytest.fixture(scope="module")
 def trained_sentiment_model():
     model_path = "../artifacts/trained_model.pkl"
@@ -18,7 +17,6 @@ def trained_sentiment_model():
         model = pickle.load(f)
     return model
 
-
 @pytest.fixture(scope="module")
 def sentiment_vectorizer():
     vectorizer_path = "artifacts/c1_BoW_Sentiment_Model.pkl"
@@ -31,13 +29,11 @@ def sentiment_vectorizer():
         vectorizer = pickle.load(f)
     return vectorizer
 
-
 def replace_with_synonym(text, original_word, synonym):
     return text.replace(original_word, synonym)
 
-
-# Metamorphic tests for sentiment analysis model
-def test_metamorphic_synonym_positive_review(
+# Mutamorphic tests for sentiment analysis model
+def test_mutamorphic_synonym_positive_review(
     trained_sentiment_model, sentiment_vectorizer
 ):
     model = trained_sentiment_model
@@ -69,9 +65,8 @@ def test_metamorphic_synonym_positive_review(
         transformed_prediction_2 == original_prediction
     ), f"Sentiment changed from '{original_prediction}' to '{transformed_prediction_2}' after synonym replacement (excellent -> fine)."
 
-
-# Metamorphic tests for sentiment analysis model
-def test_metamorphic_synonym_negative_review(
+# Mutamorphic tests for sentiment analysis model
+def test_mutamorphic_synonym_negative_review(
     trained_sentiment_model, sentiment_vectorizer
 ):
     model = trained_sentiment_model
@@ -105,8 +100,7 @@ def test_metamorphic_synonym_negative_review(
         transformed_prediction_2 == original_prediction
     ), f"Sentiment changed from '{original_prediction}' to '{transformed_prediction_2}' after synonym replacement (awful -> dreadful)."
 
-
-def test_metamorphic_add_neutral_phrase_negative_review(
+def test_mutamorphic_add_neutral_phrase_negative_review(
     trained_sentiment_model, sentiment_vectorizer
 ):
     model = trained_sentiment_model
