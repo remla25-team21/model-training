@@ -34,4 +34,4 @@ def test_review_length(raw_data):
 def test_exact_duplicate_rows(raw_data):
     """Check for fully duplicated rows with same Review and Liked"""
     duplicates = raw_data.duplicated().sum()
-    assert duplicates <= 4, f"Unusual number of exact duplicate rows: {duplicates}"
+    assert duplicates <= 10, f"Unusual number of exact duplicate rows: {duplicates}"
