@@ -5,3 +5,7 @@ git+https://github.com/remla25-team21/lib-ml.git@v0.0.6
 dvc
 dvc-gdrive
 pyyaml
+pylint
+flake8
+bandit
+astroid
