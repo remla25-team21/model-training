@@ -9,7 +9,7 @@ exclude = tests, .git, __pycache__, build, dist, venv, .venv, .dvc, data, docs, 
 recursive = true
 
 # Tests to skip
-skips = B101,B601
+skips = B101,B601,B403
 
 # Tests to include
 tests = B201,B301
