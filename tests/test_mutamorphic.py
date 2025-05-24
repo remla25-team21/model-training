@@ -114,7 +114,6 @@ def test_mutamorphic_add_neutral_phrase_negative_review(
     )
     transformed_prediction = model.predict(transformed_review_vectorized)[0]
 
-    # assert original_prediction == "Negative" # Base assumption
     assert (
         transformed_prediction == original_prediction
     ), f"Sentiment changed from '{original_prediction}' to '{transformed_prediction}' after adding a neutral phrase."
