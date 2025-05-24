@@ -5,7 +5,7 @@
 <!-- PYLINT_BADGE_END -->
 
 <!-- COVERAGE_BADGE_START -->
-![Coverage](https://codecov.io/gh/remla25-21/model-training/branch/main/graph/badge.svg)
+![Coverage](https://codecov.io/gh/remla25-team21/model-training/branch/main/graph/badge.svg)
 <!-- COVERAGE_BADGE_END -->
 
 <!-- ML_SCORE_BADGE_START -->
@@ -57,11 +57,6 @@ This repository contains the training pipeline for the sentiment analysis model 
 > ```bash
 > pytest
 > ```
-
-## ML Test Score
-
-<!-- ML_TEST_SCORE_START -->
-<!-- ML_TEST_SCORE_END -->
 
 ## Dependencies
 
@@ -198,6 +193,9 @@ Use Git Bash as your terminal:
 ```bash
 2. ./lint.sh
 ```
+
+## ML Test Score
+
 <!-- ML_TEST_SCORE_START -->
 | Category              | Test Count | Automated? |
 |-----------------------|------------|------------|
