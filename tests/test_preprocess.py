@@ -4,6 +4,9 @@ import pytest
 from preprocess import preprocess_data
 
 
+ARTIFACTS_TEST_DIR = "artifacts_test"
+
+
 # Dummy data file creation
 @pytest.fixture(scope="module")
 def dummy_data_file():
@@ -23,17 +26,16 @@ def dummy_data_file():
 # Clean up the artifacts directory and files after each test
 @pytest.fixture(scope="function", autouse=True)
 def cleanup_artifacts():
-    artifacts_dir = "artifacts"
-    preprocessed_file = os.path.join(artifacts_dir, "preprocessed_data.pkl")
-    vectorizer_file = os.path.join(artifacts_dir, "c1_BoW_Sentiment_Model.pkl")
+    preprocessed_file = os.path.join(ARTIFACTS_TEST_DIR, "preprocessed_data.pkl")
+    vectorizer_file = os.path.join(ARTIFACTS_TEST_DIR, "c1_BoW_Sentiment_Model.pkl")
 
     # Cleanup before test
     if os.path.exists(preprocessed_file):
         os.remove(preprocessed_file)
     if os.path.exists(vectorizer_file):
         os.remove(vectorizer_file)
-    if os.path.exists(artifacts_dir) and not os.listdir(artifacts_dir):
-        os.rmdir(artifacts_dir)
+    if os.path.exists(ARTIFACTS_TEST_DIR) and not os.listdir(ARTIFACTS_TEST_DIR):
+        os.rmdir(ARTIFACTS_TEST_DIR)
 
     # runthe test
     yield
@@ -43,22 +45,27 @@ def cleanup_artifacts():
         os.remove(preprocessed_file)
     if os.path.exists(vectorizer_file):
         os.remove(vectorizer_file)
-    if os.path.exists(artifacts_dir) and not os.listdir(artifacts_dir):
-        os.rmdir(artifacts_dir)
+    if os.path.exists(ARTIFACTS_TEST_DIR) and not os.listdir(ARTIFACTS_TEST_DIR):
+        os.rmdir(ARTIFACTS_TEST_DIR)
 
 
 def test_preprocess_data(dummy_data_file):
+
     # Run the preprocess function with the dummy data file path
     returned_path = preprocess_data(
-        data_path=dummy_data_file, test_size=0.5, random_state=42
+        data_path=dummy_data_file,
+        test_size=0.5,
+        random_state=42,
+        output_dir=ARTIFACTS_TEST_DIR,
     )
 
     # Check if the function returns the expected path
-    assert returned_path == "artifacts/preprocessed_data.pkl"
+    preprocessed_path = os.path.join(ARTIFACTS_TEST_DIR, "preprocessed_data.pkl")
+    vectorizer_path = os.path.join(ARTIFACTS_TEST_DIR, "c1_BoW_Sentiment_Model.pkl")
+
+    assert returned_path == preprocessed_path
 
     # Check if the output files were created
-    preprocessed_path = "artifacts/preprocessed_data.pkl"
-    vectorizer_path = "artifacts/c1_BoW_Sentiment_Model.pkl"
     assert os.path.exists(preprocessed_path), "Preprocessed data file was not created."
     assert os.path.exists(vectorizer_path), "Vectorizer file was not created."
 
@@ -81,8 +88,8 @@ def test_preprocess_data(dummy_data_file):
     # Check if the vectorizer file is not empty
     assert os.path.getsize(vectorizer_path) > 0, "Vectorizer file is empty."
 
-    # 5. Check if the artifacts directory was created
-    assert os.path.exists("artifacts"), "Artifacts directory was not created."
+    # Check if the artifacts directory was created
+    assert os.path.exists(ARTIFACTS_TEST_DIR), "Artifacts directory was not created."
 
 
 # Test that if the data file does not exist, it thorws an error

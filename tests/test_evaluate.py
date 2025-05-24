@@ -11,7 +11,7 @@ from evaluate import evaluate_model
 # A dedicated dir for test inputs
 INPUT_DIR = "test_eval_artifacts"
 # The dir created by evaluate_model function
-ARTIFACTS_DIR = "artifacts"
+ARTIFACTS_TEST_DIR = "artifacts_test"
 
 
 # Create dummy model and preprocessed data which will be an input to the evaluate_model function
@@ -32,7 +32,7 @@ def setup_and_cleanup_test_environment():
     with open(dummy_trained_model_path, "wb") as f:
         pickle.dump(model, f)
 
-    # 2. Create dummy preprocessed data
+    # Create dummy preprocessed data
     X_test_dummy = np.array([[1, 1], [2, 1], [0, 0], [1, 0]])
     y_test_dummy = np.array([1, 1, 0, 0])
     preprocessed_data = {"X_test": X_test_dummy, "y_test": y_test_dummy}
@@ -45,26 +45,29 @@ def setup_and_cleanup_test_environment():
     if os.path.exists(INPUT_DIR):
         shutil.rmtree(INPUT_DIR)
     # Cleanup the artifacts directory created by evaluate_model function
-    if os.path.exists(ARTIFACTS_DIR):
-        shutil.rmtree(ARTIFACTS_DIR)
+    if os.path.exists(ARTIFACTS_TEST_DIR):
+        shutil.rmtree(ARTIFACTS_TEST_DIR)
 
 
 # Successful test case for evaluate_model function
 def test_evaluate_model_success(setup_and_cleanup_test_environment):
     dummy_model_path, dummy_data_path = setup_and_cleanup_test_environment
 
+    # Check matrix path
+    expected_metrics_path = os.path.join(ARTIFACTS_TEST_DIR, "metrics.json")
+
     returned_metrics_path = evaluate_model(
-        trained_model_path=dummy_model_path, preprocessed_data_path=dummy_data_path
+        trained_model_path=dummy_model_path,
+        preprocessed_data_path=dummy_data_path,
+        output_dir=ARTIFACTS_TEST_DIR,
     )
 
-    # Check matrix path
-    expected_metrics_path = os.path.join(ARTIFACTS_DIR, "metrics.json")
     assert os.path.normpath(returned_metrics_path) == os.path.normpath(
         expected_metrics_path
     ), "Returned metrics path is incorrect."
 
     # check that the model was copied properly
-    expected_final_model_path = os.path.join(ARTIFACTS_DIR, "sentiment_model.pkl")
+    expected_final_model_path = os.path.join(ARTIFACTS_TEST_DIR, "sentiment_model.pkl")
     assert os.path.exists(
         expected_final_model_path
     ), "Final model (copied) was not created."
@@ -86,16 +89,15 @@ def test_evaluate_model_success(setup_and_cleanup_test_environment):
     assert metrics["accuracy"] == 1.0
 
 
+# invalid trained model path test
 def test_evaluate_model_trained_model_not_found(setup_and_cleanup_test_environment):
-    """
-    Tests FileNotFoundError when the trained model path is invalid.
-    """
     _, dummy_data_path = setup_and_cleanup_test_environment
 
     with pytest.raises(FileNotFoundError):
         evaluate_model(
             trained_model_path="non_existent_model.pkl",
             preprocessed_data_path=dummy_data_path,
+            output_dir=ARTIFACTS_TEST_DIR,
         )
 
 
@@ -107,6 +109,7 @@ def test_evaluate_model_preprocessed_data_not_found(setup_and_cleanup_test_envir
         evaluate_model(
             trained_model_path=dummy_model_path,
             preprocessed_data_path="non_existent_data.pkl",
+            output_dir=ARTIFACTS_TEST_DIR,
         )
 
 
@@ -114,10 +117,10 @@ def test_evaluate_model_preprocessed_data_not_found(setup_and_cleanup_test_envir
 def test_evaluate_model_data_key_error(setup_and_cleanup_test_environment):
     dummy_model_path, _ = setup_and_cleanup_test_environment
 
-    os.makedirs(ARTIFACTS_DIR, exist_ok=True)
+    os.makedirs(ARTIFACTS_TEST_DIR, exist_ok=True)
 
     # Create a faulty preprocessed data file (no x_test)
-    faulty_data_path = os.path.join(ARTIFACTS_DIR, "faulty_data.pkl")
+    faulty_data_path = os.path.join(ARTIFACTS_TEST_DIR, "faulty_data.pkl")
     faulty_data = {
         "X_test_WRONG_KEY": np.array([[0, 0]]),
         "y_test": np.array([0]),
@@ -127,7 +130,9 @@ def test_evaluate_model_data_key_error(setup_and_cleanup_test_environment):
 
     with pytest.raises(KeyError):
         evaluate_model(
-            trained_model_path=dummy_model_path, preprocessed_data_path=faulty_data_path
+            trained_model_path=dummy_model_path,
+            preprocessed_data_path=faulty_data_path,
+            output_dir=ARTIFACTS_TEST_DIR,
         )
 
     # Testing invalid preprocessed data format (no y_test)
@@ -140,5 +145,7 @@ def test_evaluate_model_data_key_error(setup_and_cleanup_test_environment):
 
     with pytest.raises(KeyError):
         evaluate_model(
-            trained_model_path=dummy_model_path, preprocessed_data_path=faulty_data_path
+            trained_model_path=dummy_model_path,
+            preprocessed_data_path=faulty_data_path,
+            output_dir=ARTIFACTS_TEST_DIR,
         )
