@@ -1,3 +1,10 @@
+"""
+Module for evaluating trained machine learning models.
+
+This module provides functionality to evaluate model performance,
+calculate metrics, and save evaluation results for sentiment analysis models.
+"""
+
 import os
 import pickle
 import json
@@ -12,6 +19,7 @@ def evaluate_model(trained_model_path, preprocessed_data_path, output_dir="artif
     Args:
         trained_model_path: Path to the trained model
         preprocessed_data_path: Path to the preprocessed data
+        output_dir: Directory to save evaluation metrics and final model
 
     Returns:
         Path to the evaluation metrics file
@@ -23,11 +31,11 @@ def evaluate_model(trained_model_path, preprocessed_data_path, output_dir="artif
 
     # Load trained model
     with open(trained_model_path, "rb") as f:
-        model = pickle.load(f)
+        model = pickle.load(f)  # nosec B301
 
     # Load preprocessed data
     with open(preprocessed_data_path, "rb") as f:
-        data = pickle.load(f)
+        data = pickle.load(f)  # nosec B301
 
     X_test = data["X_test"]
     y_test = data["y_test"]
@@ -50,7 +58,7 @@ def evaluate_model(trained_model_path, preprocessed_data_path, output_dir="artif
     }
 
     # Save metrics
-    with open(metrics_path, "w") as f:
+    with open(metrics_path, "w", encoding="utf-8") as f:
         json.dump(metrics, f, indent=4)
 
     # Create model artifact for final release

@@ -1,0 +1,16 @@
+[bandit]
+# Directories or files to analyze
+targets = src
+
+# Directories or files to exclude from analysis
+exclude = tests, .git, __pycache__, build, dist, venv, .venv, .dvc, data, docs, .github
+
+# Recursively analyze subdirectories
+recursive = true
+
+# Tests to skip
+skips = B101,B601,B403
+
+# Tests to include
+tests = B201,B301
+

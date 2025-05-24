@@ -1,3 +1,12 @@
+"""
+Module for preprocessing text data for sentiment analysis.
+
+This module handles the preprocessing pipeline for restaurant review data,
+including text cleaning, feature extraction, and train-test splitting.
+It integrates with the libml preprocessing utilities to create vectorized
+representations of text data suitable for machine learning models.
+"""
+
 import os
 import pickle
 from libml.preprocessing import preprocess_train
@@ -11,6 +20,7 @@ def preprocess_data(data_path, test_size=0.2, random_state=0, output_dir="artifa
         data_path: Path to the raw data file
         test_size: Test split size
         random_state: Random state for reproducibility
+        output_dir: Directory to save the preprocessed data and vectorizer
 
     Returns:
         Path to the preprocessed data

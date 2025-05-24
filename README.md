@@ -1,5 +1,9 @@
 # model-training
 
+<!-- PYLINT_BADGE_START -->
+![Pylint Score](https://img.shields.io/badge/pylint-10%2E00%2F10-brightgreen)
+<!-- PYLINT_BADGE_END -->
+
 This repository contains the training pipeline for the sentiment analysis model used in our REMLA project.
 
 - It uses the [lib-ml](https://github.com/remla25-team21/lib-ml) library for data preprocessing and saves the trained model (`sentiment_model_*.pkl`) as a release artifact.
@@ -145,3 +149,34 @@ The pipeline produces the following artifacts:
 - `trained_model_*.pkl`: Trained ML model before evaluation
 - `sentiment_model_*.pkl`: Final ML model after evaluation
 - `metrics_*.json`: Model performance metrics
+
+# 🧹 Linters
+
+Linters help improve code quality by identifying errors, enforcing style rules, and spotting security issues without running the code.
+
+## Linters Used
+
+- **Pylint**: Checks for coding errors and enforces standards.
+- **Flake8**: Checks code style and complexity.
+- **Bandit**: Scans for security vulnerabilities in Python code.
+
+## How to Run
+
+To run all linters and generate reports:
+
+### For Mac/Linux
+```bash
+bash lint.sh
+```
+
+### For Windows
+
+Use Git Bash as your terminal
+
+
+```bash
+1. chmod +x lint.sh
+```
+```bash
+2 ./lint.sh
+```
