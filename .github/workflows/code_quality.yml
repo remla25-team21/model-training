@@ -19,6 +19,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
       - id: pylint
         run: |
           pylint_output=$(PYTHONPATH=. pylint src/ --fail-under=8)
@@ -30,11 +31,13 @@ jobs:
             score="unknown"
           fi
           echo "pylint_score=$score" >> $GITHUB_OUTPUT
-      - name: Update README badge
+
+      - name: Update Pylint Badge in README
         run: |
           score=${{ steps.pylint.outputs.pylint_score }}
           badge="![Pylint Score](https://img.shields.io/badge/pylint-${score//./%2E}%2F10-brightgreen)"
           sed -i "/<!-- PYLINT_BADGE_START -->/,/<!-- PYLINT_BADGE_END -->/c\\<!-- PYLINT_BADGE_START -->\n$badge\n<!-- PYLINT_BADGE_END -->" README.md
+
       - name: Run flake8
         run: flake8 src/
 
@@ -42,14 +45,47 @@ jobs:
         run: bandit -r src/
         continue-on-error: true
 
+      - name: Run tests and collect coverage
+        run: |
+          coverage run -m pytest
+          coverage report
+          coverage xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Update Coverage Badge in README
+        run: |
+          coverage_badge="![Coverage](https://codecov.io/gh/remla25-21/model-training/branch/main/graph/badge.svg)"
+          sed -i "/<!-- COVERAGE_BADGE_START -->/,/<!-- COVERAGE_BADGE_END -->/c\\<!-- COVERAGE_BADGE_START -->\n$coverage_badge\n<!-- COVERAGE_BADGE_END -->" README.md
+
+      - name: Calculate ML Test Score
+        run: python ml_test_score.py
+
+      - name: Update ML Test Score Table in README
+        run: |
+          awk '/<!-- ML_TEST_SCORE_START -->/{print;flag=1;next}/<!-- ML_TEST_SCORE_END -->/{flag=0;print;next}!flag' README.md > tmp_README.md
+          cat ml_test_score.md >> tmp_README.md
+          mv tmp_README.md README.md
+
+      - name: Update ML Test Score Badge (optional)
+        run: |
+          if [ -f ml_test_score_badge.txt ]; then
+            badge_url=$(cat ml_test_score_badge.txt)
+            badge_md="![ML Test Score]($badge_url)"
+            sed -i "/<!-- ML_SCORE_BADGE_START -->/,/<!-- ML_SCORE_BADGE_END -->/c\\<!-- ML_SCORE_BADGE_START -->\n$badge_md\n<!-- ML_SCORE_BADGE_END -->" README.md
+          fi
+
       - name: Commit README update
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
           if ! git diff --quiet; then
             git add README.md
-            git commit -m "Update pylint score badge to ${{ steps.pylint.outputs.pylint_score }}"
+            git commit -m "Update README with lint, coverage, and ML test score"
             git push
           else
             echo "No changes to commit."
