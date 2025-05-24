@@ -12,22 +12,22 @@ import shutil
 from sklearn.metrics import classification_report, accuracy_score
 
 
-def evaluate_model(trained_model_path, preprocessed_data_path):
+def evaluate_model(trained_model_path, preprocessed_data_path, output_dir="artifacts"):
     """
     Evaluate the model performance and save metrics.
 
     Args:
         trained_model_path: Path to the trained model
         preprocessed_data_path: Path to the preprocessed data
+        output_dir: Directory to save evaluation metrics and final model
 
     Returns:
         Path to the evaluation metrics file
     """
     # Create artifacts directory if it doesn't exist
-    os.makedirs("artifacts", exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
 
-    # Define path for saving evaluation metrics
-    metrics_path = "artifacts/metrics.json"
+    metrics_path = os.path.join(output_dir, "metrics.json")
 
     # Load trained model
     with open(trained_model_path, "rb") as f:
@@ -54,7 +54,7 @@ def evaluate_model(trained_model_path, preprocessed_data_path):
         "recall": report["weighted avg"]["recall"],
         "f1-score": report["weighted avg"]["f1-score"],
         "support": report["weighted avg"]["support"],
-        "classification_report": report
+        "classification_report": report,
     }
 
     # Save metrics
@@ -62,7 +62,7 @@ def evaluate_model(trained_model_path, preprocessed_data_path):
         json.dump(metrics, f, indent=4)
 
     # Create model artifact for final release
-    final_model_path = "artifacts/sentiment_model.pkl"
+    final_model_path = os.path.join(output_dir, "sentiment_model.pkl")
 
     # Copy the trained model to the final model path
     shutil.copyfile(trained_model_path, final_model_path)
@@ -79,5 +79,5 @@ def evaluate_model(trained_model_path, preprocessed_data_path):
 if __name__ == "__main__":
     evaluate_model(
         trained_model_path="artifacts/trained_model.pkl",
-        preprocessed_data_path="artifacts/preprocessed_data.pkl"
+        preprocessed_data_path="artifacts/preprocessed_data.pkl",
     )

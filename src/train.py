@@ -13,115 +13,91 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 
 
-def load_training_parameters(params_file_path="params.yaml"):
+def prepare_training_config(preprocessed_data_path, params_filepath, random_state=None):
     """
-    Load training parameters from configuration file.
+    Load training configuration, data, and grid search parameters.
 
     Args:
-        params_file_path: Path to the parameters YAML file
+        preprocessed_data_path (str): Path to preprocessed training data.
+        params_filepath (str): Path to the parameter YAML file.
+        random_state (int or None): Seed for reproducibility.
 
     Returns:
-        Dictionary containing training parameters
+        tuple: X_train, y_train, param_grid, cv_folds, final_random_state
     """
-    with open(params_file_path, "r", encoding="utf-8") as params_file:
-        params = yaml.safe_load(params_file)
-    return params.get("train", {})
+    # Load parameters
+    with open(params_filepath, "r", encoding="utf-8") as file:
+        params = yaml.safe_load(file)
 
+    train_params = params.get("train", {})
+    final_random_state = (
+        random_state
+        if random_state is not None
+        else train_params.get("random_state", 0)
+    )
 
-def create_parameter_grid(train_params, random_state):
-    """
-    Create hyperparameter grid for model tuning.
+    # Load preprocessed data
+    with open(preprocessed_data_path, "rb") as file:
+        data = pickle.load(file)  # nosec B301
 
-    Args:
-        train_params: Dictionary of training parameters
-        random_state: Random state for reproducibility
+    X_train, y_train = data["X_train"], data["y_train"]
 
-    Returns:
-        Dictionary containing parameter grid for GridSearchCV
-    """
-    # Extract grid search parameters with sensible defaults
-    grid_params = train_params.get("grid_search", {})
-    n_estimators = grid_params.get("n_estimators", [50, 100, 200])
-    max_depth = grid_params.get("max_depth", [None, 10, 20])
-
-    return {
-        "n_estimators": n_estimators,
-        "max_depth": max_depth,
-        "random_state": [random_state]
+    # Construct parameter grid
+    param_grid = {
+        "n_estimators": train_params.get("grid_search", {}).get(
+            "n_estimators", [50, 100, 200]
+        ),
+        "max_depth": train_params.get("grid_search", {}).get(
+            "max_depth", [None, 10, 20]
+        ),
+        "random_state": [final_random_state],
     }
 
+    cv_folds = train_params.get("cross_validation", 5)
 
-def train_model(preprocessed_data_path, random_state=None):
+    return X_train, y_train, param_grid, cv_folds, final_random_state
+
+
+def train_model(
+    preprocessed_data_path,
+    random_state=None,
+    output_model_directory="artifacts",
+    params_filepath="params.yaml",
+):
     """
-    Train the model using the preprocessed data with hyperparameter tuning.
-
-    This function loads configuration parameters, sets up a grid search for
-    hyperparameter optimization, trains a Random Forest classifier, and
-    saves the best model for later use.
+    Train the model using the preprocessed data.
 
     Args:
         preprocessed_data_path: Path to the preprocessed data
         random_state: Random state for reproducibility
+        output_model_directory (str): Directory to save the trained model.
+        params_filepath (str): Path to training configuration parameters.
 
     Returns:
-        Path to the trained model
+        Dictionary containing training parameters
     """
-    # Load training parameters from configuration
-    train_params = load_training_parameters()
-
-    # Determine random state (use parameter if provided, otherwise use config)
-    if random_state is None:
-        random_state = train_params.get("random_state", 0)
-
-    # Get cross-validation parameter
-    cv_folds = train_params.get("cross_validation", 5)
-
-    # Create artifacts directory if it doesn't exist
-    os.makedirs("artifacts", exist_ok=True)
-
-    # Define path for saving the trained model
-    model_path = "artifacts/trained_model.pkl"
-
-    # Load preprocessed training data
-    with open(preprocessed_data_path, "rb") as f:
-        data = pickle.load(f)  # nosec B301
-
-    X_train = data["X_train"]
-    y_train = data["y_train"]
-
-    # Create hyperparameter grid for tuning
-    param_grid = create_parameter_grid(train_params, random_state)
-
-    # Perform grid search with cross-validation
-    print("Starting model training with grid search...")
-    print(f"Parameter grid: {param_grid}")
-    print(f"Cross-validation folds: {cv_folds}")
-
-    grid_search = GridSearchCV(
-        RandomForestClassifier(),
-        param_grid,
-        cv=cv_folds,
-        n_jobs=-1,
-        verbose=1
+    X_train, y_train, param_grid, cv_folds, random_state = prepare_training_config(
+        preprocessed_data_path, params_filepath, random_state
     )
 
-    # Fit the grid search to find the best hyperparameters
+    # Create artifacts directory if it doesn't exist
+    os.makedirs(output_model_directory, exist_ok=True)
+    model_path = os.path.join(output_model_directory, "trained_model.pkl")
+
+    print("Starting model training with grid search...")
+    grid_search = GridSearchCV(
+        RandomForestClassifier(), param_grid, cv=cv_folds, n_jobs=-1, verbose=1
+    )
     grid_search.fit(X_train, y_train)
-    best_model = grid_search.best_estimator_
 
-    # Save the trained model to disk
     with open(model_path, "wb") as f:
-        pickle.dump(best_model, f)
+        pickle.dump(grid_search.best_estimator_, f)
 
-    # Display training results
-    print(f"Best parameters found: {grid_search.best_params_}")
-    print(f"Best cross-validation score: {grid_search.best_score_:.4f}")
+    print(f"Best parameters: {grid_search.best_params_}")
     print(f"Trained model saved to {model_path}")
 
     return model_path
 
 
 if __name__ == "__main__":
-    train_model(
-        preprocessed_data_path="artifacts/preprocessed_data.pkl"
-    )
+    train_model(preprocessed_data_path="artifacts/preprocessed_data.pkl")
