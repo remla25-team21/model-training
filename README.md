@@ -39,6 +39,11 @@ This repository contains the training pipeline for the sentiment analysis model 
 > ```bash
 > dvc repro
 > ```
+> 6. Run the test 
+>
+> ```bash
+> pytest
+> ```
 
 ## Dependencies
 
