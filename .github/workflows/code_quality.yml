@@ -39,7 +39,7 @@ jobs:
         run: flake8 src/
 
       - name: Run bandit
-        run: bandit -r src/ -c ./bandit
+        run: bandit -r src/ -c .bandit
         continue-on-error: true
 
       - name: Commit README update
