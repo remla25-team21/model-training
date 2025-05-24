@@ -44,6 +44,18 @@ jobs:
       - name: Run bandit
         run: bandit -r src/
         continue-on-error: true
+        
+      - name: Install DVC
+        run: pip install dvc[gdrive]
+
+      - name: Set up GDrive credentials for DVC
+        run: |
+          echo "${{ secrets.GDRIVE_JSON }}" > gdrive-creds.json
+          dvc remote modify storage --local gdrive_use_service_account true
+          dvc remote modify storage --local gdrive_service_account_json_file_path gdrive-creds.json
+
+      - name: Pull data and models from DVC
+        run: dvc pull
 
       - name: Run tests and collect coverage
         run: |
