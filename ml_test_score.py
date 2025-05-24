@@ -9,7 +9,7 @@ CATEGORIES = {
     "ML Infrastructure": "test_03_ml_infrastructure.py",
     "Monitoring": "test_04_monitoring.py",
     "Mutamorphic Testing": "test_mutamorphic.py",
-    "Preprocessing Module": "test_03_preprocess.py",
+    "Preprocessing Module": "test_preprocess.py",
     "Training Module": "test_train.py",
     "Evaluation Module": "test_evaluate.py"
 }
