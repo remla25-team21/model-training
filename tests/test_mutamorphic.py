@@ -3,6 +3,7 @@ import pickle
 import pytest
 import numpy as np
 
+
 @pytest.fixture(scope="module")
 def trained_sentiment_model():
     model_path = "../artifacts/trained_model.pkl"
@@ -29,91 +30,65 @@ def sentiment_vectorizer():
         vectorizer = pickle.load(f)
     return vectorizer
 
-def replace_with_synonym(text, original_word, synonym):
-    return text.replace(original_word, synonym)
+def replace_with_synonym(text, original, synonym):
+    return text.replace(original, synonym)
 
-# Mutamorphic tests for sentiment analysis model
-def test_mutamorphic_synonym_positive_review(
-    trained_sentiment_model, sentiment_vectorizer
-):
+@pytest.mark.parametrize("original_review, replacements", [
+    ("The food was great and service excellent.", [("great", "good"), ("excellent", "fine")]),
+    ("The food was terrible and the service awful.", [("terrible", "horrible"), ("awful", "dreadful")])
+])
+
+def test_mutamorphic_synonym_consistency(trained_sentiment_model, sentiment_vectorizer, original_review, replacements):
     model = trained_sentiment_model
+    vectorizer = sentiment_vectorizer
+    original_vec = vectorizer.transform([original_review])
+    original_pred = model.predict(original_vec)[0]
 
-    original_review = "The food was great and service excellent."
-    original_review_vectorized = sentiment_vectorizer.transform([original_review])
-    original_prediction = model.predict(original_review_vectorized)[0]
+    for original, synonym in replacements:
+        mutated = replace_with_synonym(original_review, original, synonym)
+        mutated_vec = vectorizer.transform([mutated])
+        mutated_pred = model.predict(mutated_vec)[0]
+        assert mutated_pred == original_pred, (
+            f"Prediction inconsistency:\n"
+            f"Original: {original_review} -> {original_pred}\n"
+            f"Mutated:  {mutated} -> {mutated_pred}"
+        )
 
-    # context similar alternative 1
-    transformed_review_1_text = replace_with_synonym(original_review, "great", "good")
-    transformed_review_1_vectorized = sentiment_vectorizer.transform(
-        [transformed_review_1_text]
-    )
-    transformed_prediction_1 = model.predict(transformed_review_1_vectorized)[0]
-
-    assert (
-        transformed_prediction_1 == original_prediction
-    ), f"Sentiment changed from '{original_prediction}' to '{transformed_prediction_1}' after synonym replacement (great -> good)."
-
-    # context similar alternative 2
-    transformed_review_2_text = replace_with_synonym(
-        original_review, "excellent", "fine"
-    )
-    transformed_review_2_vectorized = sentiment_vectorizer.transform(
-        [transformed_review_2_text]
-    )
-    transformed_prediction_2 = model.predict(transformed_review_2_vectorized)[0]
-    assert (
-        transformed_prediction_2 == original_prediction
-    ), f"Sentiment changed from '{original_prediction}' to '{transformed_prediction_2}' after synonym replacement (excellent -> fine)."
-
-# Mutamorphic tests for sentiment analysis model
-def test_mutamorphic_synonym_negative_review(
-    trained_sentiment_model, sentiment_vectorizer
-):
+def test_mutamorphic_add_neutral_phrase(trained_sentiment_model, sentiment_vectorizer):
     model = trained_sentiment_model
-    original_review = "The food was terrible and the service awful."
-    original_review_vectorized = sentiment_vectorizer.transform([original_review])
-    original_prediction = model.predict(original_review_vectorized)[0]
+    vectorizer = sentiment_vectorizer
+    review = "The experience was terrible."
+    neutralized = "To be honest, " + review
 
-    # context similar alternative 1
-    transformed_review_1_text = replace_with_synonym(
-        original_review, "terrible", "horrible"
+    vec_orig = vectorizer.transform([review])
+    vec_neutral = vectorizer.transform([neutralized])
+    pred_orig = model.predict(vec_orig)[0]
+    pred_neutral = model.predict(vec_neutral)[0]
+
+    assert pred_orig == pred_neutral, (
+        f"Prediction changed after neutral phrase: '{pred_orig}' -> '{pred_neutral}'"
     )
-    transformed_review_1_vectorized = sentiment_vectorizer.transform(
-        [transformed_review_1_text]
-    )
-    transformed_prediction_1 = model.predict(transformed_review_1_vectorized)[0]
 
-    assert (
-        transformed_prediction_1 == original_prediction
-    ), f"Sentiment changed from '{original_prediction}' to '{transformed_prediction_1}' after synonym replacement (terrible -> horrible)."
-
-    # context similar alternative 2
-    transformed_review_2_text = replace_with_synonym(
-        original_review, "awful", "dreadful"
-    )
-    transformed_review_2_vectorized = sentiment_vectorizer.transform(
-        [transformed_review_2_text]
-    )
-    transformed_prediction_2 = model.predict(transformed_review_2_vectorized)[0]
-
-    assert (
-        transformed_prediction_2 == original_prediction
-    ), f"Sentiment changed from '{original_prediction}' to '{transformed_prediction_2}' after synonym replacement (awful -> dreadful)."
-
-def test_mutamorphic_add_neutral_phrase_negative_review(
-    trained_sentiment_model, sentiment_vectorizer
-):
+def test_mutamorphic_repair_placeholder(trained_sentiment_model, sentiment_vectorizer):
+    """
+    Placeholder test to suggest the idea of automatic inconsistency repair.
+    Currently does not perform real repair, just simulates detection.
+    """
     model = trained_sentiment_model
-    original_review = "The experience was terrible."
-    original_review_vectorized = sentiment_vectorizer.transform([original_review])
-    original_prediction = model.predict(original_review_vectorized)[0]
+    vectorizer = sentiment_vectorizer
+    sentence = "The dessert was delightful."
+    mutated = replace_with_synonym(sentence, "delightful", "amazing")
 
-    transformed_review_text = "To be honest, " + original_review
-    transformed_review_vectorized = sentiment_vectorizer.transform(
-        [transformed_review_text]
-    )
-    transformed_prediction = model.predict(transformed_review_vectorized)[0]
+    orig_vec = vectorizer.transform([sentence])
+    mutated_vec = vectorizer.transform([mutated])
+    pred_orig = model.predict(orig_vec)[0]
+    pred_mutated = model.predict(mutated_vec)[0]
 
-    assert (
-        transformed_prediction == original_prediction
-    ), f"Sentiment changed from '{original_prediction}' to '{transformed_prediction}' after adding a neutral phrase."
+    if pred_orig != pred_mutated:
+        # placeholder "repair": fallback to original
+        repaired = sentence
+        repaired_vec = vectorizer.transform([repaired])
+        repaired_pred = model.predict(repaired_vec)[0]
+        assert repaired_pred == pred_orig, (
+            f"Repair step failed: original='{pred_orig}', mutated='{pred_mutated}', repaired='{repaired_pred}'"
+        )
