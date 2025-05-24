@@ -5,7 +5,7 @@
 <!-- PYLINT_BADGE_END -->
 
 <!-- COVERAGE_BADGE_START -->
-![Coverage](https://codecov.io/gh/remla25-team21/model-training/branch/main/graph/badge.svg)
+![Coverage](https://codecov.io/gh/remla25-21/model-training/branch/main/graph/badge.svg)
 <!-- COVERAGE_BADGE_END -->
 
 <!-- ML_SCORE_BADGE_START -->
@@ -196,6 +196,8 @@ Use Git Bash as your terminal:
 
 ## ML Test Score
 
+<!-- ML_TEST_SCORE_START -->
+<!-- ML_TEST_SCORE_END -->
 <!-- ML_TEST_SCORE_START -->
 | Category              | Test Count | Automated? |
 |-----------------------|------------|------------|
