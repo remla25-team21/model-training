@@ -1,3 +1,4 @@
+lint
 #!/bin/bash
 set -euo pipefail
 
@@ -35,8 +36,15 @@ else
 fi
 
 # Count Flake8 issues
-FLAKE8_ISSUES=$(wc -l < flake8_output.txt)
-echo "Flake8 Issues: $FLAKE8_ISSUES"
+FLAKE8_ISSUES=$(tail -n 1 flake8_output.txt | xargs)
+
+# Check if the last line is a valid number
+if [[ "$FLAKE8_ISSUES" =~ ^[0-9]+$ ]]; then
+  echo "Flake8 Issues: $FLAKE8_ISSUES"
+else
+  echo "Flake8 Issues: Unable to determine (last line not numeric)"
+fi
+
 
 echo ""
 echo "Linting completed."
