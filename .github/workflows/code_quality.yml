@@ -1,6 +1,10 @@
 name: Code Quality
 
-on: [push]
+on:
+  push:
+    branches: ['*']
+  pull_request:
+    branches: [main]  # to ensure coverage gets uploaded when PRs target main
 
 jobs:
   lint-and-test:

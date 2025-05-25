@@ -197,18 +197,5 @@ Use Git Bash as your terminal:
 ## ML Test Score
 
 <!-- ML_TEST_SCORE_START -->
-<!-- ML_TEST_SCORE_END -->
-<!-- ML_TEST_SCORE_START -->
-| Category              | Test Count | Automated? |
-|-----------------------|------------|------------|
-| Feature & Data         | ✅ 5        | ✅         |
-| Model Development      | ✅ 5        | ✅         |
-| ML Infrastructure      | ✅ 2        | ✅         |
-| Monitoring             | ✅ 2        | ✅         |
-| Mutamorphic Testing    | ✅ 3        | ✅         |
-| Preprocessing Module   | ✅ 2        | ✅         |
-| Training Module        | ✅ 5        | ✅         |
-| Evaluation Module      | ✅ 4        | ✅         |
 
-**Final Score:** 12/12
 <!-- ML_TEST_SCORE_END -->
