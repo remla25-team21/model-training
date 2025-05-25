@@ -8,7 +8,7 @@ official_categories = {
     "Model Development": "test_02_model_development.py",
     "ML Infrastructure": "test_03_ml_infrastructure.py",
     "Monitoring": "test_04_monitoring.py",
-    "Mutamorphic Testing": "test_mutamorphic.py",
+    "Mutamorphic Testing": "test_05_mutamorphic.py",
 }
 
 extra_modules = {

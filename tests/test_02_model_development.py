@@ -2,6 +2,9 @@ import pytest
 import pickle
 import joblib
 import json
+import time
+import os
+import tracemalloc
 from preprocess import preprocess_data
 from train import train_model
 from evaluate import evaluate_model
@@ -9,6 +12,9 @@ from sklearn.metrics import accuracy_score
 from sklearn.dummy import DummyClassifier
 
 DATA_PATH = "data/raw/a1_RestaurantReviews_HistoricDump.tsv"
+MODEL_PATH = "../artifacts/trained_model.pkl"
+MODEL_PATH = os.path.abspath("artifacts/trained_model.pkl")
+VECTORIZER_PATH = "artifacts/c1_BoW_Sentiment_Model.pkl"
 
 @pytest.fixture(scope="module")
 def preprocessed():
@@ -76,3 +82,28 @@ def test_baseline_comparison(train_test_data, preprocessed):
     assert model_acc > baseline_acc, (
         f"Trained model does not outperform baseline: model={model_acc:.2f}, baseline={baseline_acc:.2f}"
     )
+
+def test_prediction_latency():
+    model = joblib.load(MODEL_PATH)
+    vectorizer = joblib.load(VECTORIZER_PATH)
+    texts = ["The food was absolutely amazing!"]
+
+    start = time.time()
+    X = vectorizer.transform(texts)
+    _ = model.predict(X)
+    elapsed = time.time() - start
+
+    assert elapsed < 0.5, f"Prediction took too long: {elapsed:.3f}s"
+
+def test_prediction_memory():
+    model = joblib.load(MODEL_PATH)
+    vectorizer = joblib.load(VECTORIZER_PATH)
+    texts = ["The food was absolutely amazing!"]
+
+    tracemalloc.start()
+    X = vectorizer.transform(texts)
+    _ = model.predict(X)
+    _, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+
+    assert peak < 50 * 1024 * 1024, f"Peak memory usage too high: {peak / 1024**2:.2f} MB"

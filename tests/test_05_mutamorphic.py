@@ -3,7 +3,6 @@ import pickle
 import pytest
 import numpy as np
 
-
 @pytest.fixture(scope="module")
 def trained_sentiment_model():
     model_path = "../artifacts/trained_model.pkl"

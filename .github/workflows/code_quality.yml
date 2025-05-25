@@ -82,7 +82,7 @@ jobs:
           cat ml_test_score.md >> tmp_README.md
           mv tmp_README.md README.md
 
-      - name: Update ML Test Score Badge (optional)
+      - name: Update ML Test Score Badge
         run: |
           if [ -f ml_test_score_badge.txt ]; then
             badge_url=$(cat ml_test_score_badge.txt)
