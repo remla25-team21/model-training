@@ -5,7 +5,7 @@
 <!-- PYLINT_BADGE_END -->
 
 <!-- COVERAGE_BADGE_START -->
-![Coverage](https://codecov.io/github/remla25-team21/model-training/graph/badge.svg?token=L9ICV9K86O)
+![Coverage](https://codecov.io/github/remla25-team21/model-training/branch/feat%2Fa4-ml-testing/graph/badge.svg?token=L9ICV9K86O)
 <!-- COVERAGE_BADGE_END -->
 
 <!-- ML_SCORE_BADGE_START -->

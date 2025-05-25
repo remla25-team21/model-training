@@ -1,10 +1,6 @@
 name: Code Quality
 
-on:
-  push:
-    branches: ['*']
-  pull_request:
-    branches: [main]  # to ensure coverage gets uploaded when PRs target main
+on: [push]
 
 jobs:
   lint-and-test:
@@ -74,7 +70,7 @@ jobs:
 
       - name: Update Coverage Badge in README
         run: |
-          coverage_badge="![Coverage](https://codecov.io/github/remla25-team21/model-training/graph/badge.svg?token=L9ICV9K86O)"
+          coverage_badge="![Coverage](https://codecov.io/github/remla25-team21/model-training/branch/feat%2Fa4-ml-testing/graph/badge.svg?token=L9ICV9K86O)"
           sed -i "/<!-- COVERAGE_BADGE_START -->/,/<!-- COVERAGE_BADGE_END -->/c\\<!-- COVERAGE_BADGE_START -->\n$coverage_badge\n<!-- COVERAGE_BADGE_END -->" README.md
 
       - name: Calculate ML Test Score
@@ -95,15 +91,13 @@ jobs:
           fi
 
       - name: Commit README update
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/')
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          branch=$(echo "${GITHUB_REF#refs/heads/}")
           if ! git diff --quiet; then
             git add README.md
             git commit -m "Update README with lint, coverage, and ML test score"
-            git push origin HEAD:$branch
+            git push
           else
             echo "No changes to commit."
           fi
