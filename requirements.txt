@@ -9,3 +9,7 @@ pylint
 flake8
 bandit
 astroid
+pytest
+coverage
+pytest-cov
+codecov
