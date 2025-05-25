@@ -70,7 +70,7 @@ jobs:
 
       - name: Update Coverage Badge in README
         run: |
-          coverage_badge="![Coverage](https://codecov.io/gh/remla25-team21/model-training/branch/main/graph/badge.svg)"
+          coverage_badge="![Coverage](https://codecov.io/gh/remla25-team21/model-training/graph/badge.svg)"
           sed -i "/<!-- COVERAGE_BADGE_START -->/,/<!-- COVERAGE_BADGE_END -->/c\\<!-- COVERAGE_BADGE_START -->\n$coverage_badge\n<!-- COVERAGE_BADGE_END -->" README.md
 
       - name: Calculate ML Test Score

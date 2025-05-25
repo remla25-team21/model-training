@@ -5,7 +5,7 @@
 <!-- PYLINT_BADGE_END -->
 
 <!-- COVERAGE_BADGE_START -->
-![Coverage](https://codecov.io/gh/remla25-team21/model-training/branch/main/graph/badge.svg)
+![Coverage](https://codecov.io/gh/remla25-team21/model-training/graph/badge.svg)
 <!-- COVERAGE_BADGE_END -->
 
 <!-- ML_SCORE_BADGE_START -->
@@ -197,18 +197,5 @@ Use Git Bash as your terminal:
 ## ML Test Score
 
 <!-- ML_TEST_SCORE_START -->
-<!-- ML_TEST_SCORE_END -->
-<!-- ML_TEST_SCORE_START -->
-| Category              | Test Count | Automated? |
-|-----------------------|------------|------------|
-| Feature & Data         | ✅ 5        | ✅         |
-| Model Development      | ✅ 5        | ✅         |
-| ML Infrastructure      | ✅ 2        | ✅         |
-| Monitoring             | ✅ 2        | ✅         |
-| Mutamorphic Testing    | ✅ 3        | ✅         |
-| Preprocessing Module   | ✅ 2        | ✅         |
-| Training Module        | ✅ 5        | ✅         |
-| Evaluation Module      | ✅ 4        | ✅         |
 
-**Final Score:** 12/12
 <!-- ML_TEST_SCORE_END -->
