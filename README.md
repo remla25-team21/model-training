@@ -9,7 +9,7 @@
 <!-- COVERAGE_BADGE_END -->
 
 <!-- ML_SCORE_BADGE_START -->
-![ML Test Score](https://img.shields.io/badge/ML%20Test%20Score-10%2F12-brightgreen)
+![ML Test Score](https://img.shields.io/badge/ML%20Test%20Score-12%2F12-brightgreen)
 <!-- ML_SCORE_BADGE_END -->
 
 This repository contains the training pipeline for the sentiment analysis model used in our REMLA project. 
@@ -197,6 +197,8 @@ Use Git Bash as your terminal:
 ## ML Test Score
 
 <!-- ML_TEST_SCORE_START -->
+<!-- ML_TEST_SCORE_END -->
+<!-- ML_TEST_SCORE_START -->
 | Category              | Test Count | Automated? |
 |-----------------------|------------|------------|
 | Feature & Data         | ✅ 5        | ✅         |
@@ -208,5 +210,5 @@ Use Git Bash as your terminal:
 | Training Module        | ✅ 5        | ✅         |
 | Evaluation Module      | ✅ 4        | ✅         |
 
-**Final Score:** 10/12
+**Final Score:** 12/12
 <!-- ML_TEST_SCORE_END -->
