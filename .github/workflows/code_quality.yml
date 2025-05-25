@@ -98,10 +98,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          branch=$(echo "${GITHUB_REF#refs/heads/}")
           if ! git diff --quiet; then
             git add README.md
             git commit -m "Update README with lint, coverage, and ML test score"
-            git push
+            git push origin HEAD:$branch
           else
             echo "No changes to commit."
           fi
