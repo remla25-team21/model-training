@@ -47,7 +47,7 @@ def main():
     official_lines, official_score = generate_table(official_categories)
 
     # Extra module tests
-    extra_lines, _ = generate_table(extra_modules, count_towards_score=False)
+    extra_lines, _ = generate_table(extra_modules, count_towards_score=True)
 
     all_lines.extend(official_lines)
     all_lines.extend(extra_lines)
