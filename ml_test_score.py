@@ -47,18 +47,19 @@ def main():
     official_lines, official_score = generate_table(official_categories)
 
     # Extra module tests
-    extra_lines, _ = generate_table(extra_modules, count_towards_score=True)
+    extra_lines, extra_score = generate_table(extra_modules, count_towards_score=True)
 
     all_lines.extend(official_lines)
     all_lines.extend(extra_lines)
-    all_lines.append(f"\n**Final Score:** {min(official_score, 12)}/12")
+    all_lines.append(f"\n**Final Score:** {min(official_score + extra_score, 12)}/12")
     all_lines.append("<!-- ML_TEST_SCORE_END -->")
 
     with open("ml_test_score.md", "w") as f:
         f.write("\n".join(all_lines))
 
-    badge_color = "brightgreen" if official_score >= 10 else "yellow" if official_score >= 6 else "red"
-    badge_url = f"https://img.shields.io/badge/ML%20Test%20Score-{min(official_score, 12)}%2F12-{badge_color}"
+    total_score = min(official_score + extra_score, 12)
+    badge_color = "brightgreen" if total_score >= 10 else "yellow" if total_score >= 6 else "red"
+    badge_url = f"https://img.shields.io/badge/ML%20Test%20Score-{total_score}%2F12-{badge_color}"
     with open("ml_test_score_badge.txt", "w") as f:
         f.write(badge_url)
 
