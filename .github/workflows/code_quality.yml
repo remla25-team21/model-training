@@ -95,6 +95,7 @@ jobs:
           fi
 
       - name: Commit README update
+        if: github.event_name == 'push'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
