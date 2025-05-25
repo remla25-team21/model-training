@@ -37,7 +37,7 @@ This repository contains the training pipeline for the sentiment analysis model 
 >
 > ```bash
 > dvc remote modify storage --local gdrive_use_service_account true
-> dvc remote modify storage --local gdrive_service_account_json_file_path <path/to/file.json>  # Replace with your Google Drive service account JSON file path
+> dvc remote modify storage --local gdrive_service_account_json_file_path <path/to/file.json> # Replace with your Google Drive service account JSON file path
 > ```
 >
 > 4. Pull the data from remote storage or download it directly (see [Troubleshooting](#troubleshooting) section if facing issues)
@@ -56,6 +56,14 @@ This repository contains the training pipeline for the sentiment analysis model 
 >
 > ```bash
 > pytest
+> ```
+>
+> 7. Generate the coverage report
+>
+> ```bash
+> coverage run -m pytest
+> coverage report # Prints summary in terminal 
+> coverage xml # Generates coverage.xml file in the root directory
 > ```
 
 ## Dependencies
