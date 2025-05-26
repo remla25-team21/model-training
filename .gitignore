@@ -30,3 +30,6 @@ __pycache__
 *.tar.gz
 *.tar
 *.tgz
+
+.coverage
+coverage.xml

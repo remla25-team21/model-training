@@ -4,7 +4,15 @@
 ![Pylint Score](https://img.shields.io/badge/pylint-10%2E00%2F10-brightgreen)
 <!-- PYLINT_BADGE_END -->
 
-This repository contains the training pipeline for the sentiment analysis model used in our REMLA project.
+<!-- COVERAGE_BADGE_START -->
+![Coverage](https://codecov.io/github/remla25-team21/model-training/branch/feat%2Fa4-ml-testing/graph/badge.svg?token=L9ICV9K86O)
+<!-- COVERAGE_BADGE_END -->
+
+<!-- ML_SCORE_BADGE_START -->
+![ML Test Score](https://img.shields.io/badge/ML%20Test%20Score-12%2F12-brightgreen)
+<!-- ML_SCORE_BADGE_END -->
+
+This repository contains the training pipeline for the sentiment analysis model used in our REMLA project. 
 
 - It uses the [lib-ml](https://github.com/remla25-team21/lib-ml) library for data preprocessing and saves the trained model (`sentiment_model_*.pkl`) as a release artifact.
 - The training dataset can be found in `data/raw/a1_RestaurantReviews_HistoricDump.tsv`.
@@ -29,7 +37,7 @@ This repository contains the training pipeline for the sentiment analysis model 
 >
 > ```bash
 > dvc remote modify storage --local gdrive_use_service_account true
-> dvc remote modify storage --local gdrive_service_account_json_file_path <path/to/file.json>  # Replace with your Google Drive service account JSON file path
+> dvc remote modify storage --local gdrive_service_account_json_file_path <path/to/file.json> # Replace with your Google Drive service account JSON file path
 > ```
 >
 > 4. Pull the data from remote storage or download it directly (see [Troubleshooting](#troubleshooting) section if facing issues)
@@ -43,10 +51,19 @@ This repository contains the training pipeline for the sentiment analysis model 
 > ```bash
 > dvc repro
 > ```
+>
 > 6. Run the test 
 >
 > ```bash
 > pytest
+> ```
+>
+> 7. Generate the coverage report
+>
+> ```bash
+> coverage run -m pytest
+> coverage report # Prints summary in terminal 
+> coverage xml # Generates coverage.xml file in the root directory
 > ```
 
 ## Dependencies
@@ -111,16 +128,19 @@ For more details on collaborating with DVC, refer to [./docs/dvc-ref.md](./docs/
 If you encounter "This app is blocked" error during Google authentication when using DVC with Google Drive, you can download the dataset directly using one of these methods:
 
 #### Linux/macOS
+
 ```bash
 wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=1mrWUgJlRCf_n_TbxPuuthJ9YsTBwGuRh' -O ./data/raw/a1_RestaurantReviews_HistoricDump.tsv
 ```
 
 #### Windows (PowerShell)
+
 ```powershell
 Invoke-WebRequest -Uri "https://drive.google.com/uc?export=download&id=1mrWUgJlRCf_n_TbxPuuthJ9YsTBwGuRh" -OutFile "./data/raw/a1_RestaurantReviews_HistoricDump.tsv"
 ```
 
 After downloading the dataset directly, you can proceed with the pipeline by running:
+
 ```bash
 dvc repro
 ```
@@ -144,39 +164,61 @@ python src/evaluate.py
 
 The pipeline produces the following artifacts:
 
-- `preprocessed_data_*.pkl`: Preprocessed data (features and labels)
-- `c1_BoW_Sentiment_Model_*.pkl`: Text vectorizer model
-- `trained_model_*.pkl`: Trained ML model before evaluation
-- `sentiment_model_*.pkl`: Final ML model after evaluation
-- `metrics_*.json`: Model performance metrics
+* `preprocessed_data_*.pkl`: Preprocessed data (features and labels)
+* `c1_BoW_Sentiment_Model_*.pkl`: Text vectorizer model
+* `trained_model_*.pkl`: Trained ML model before evaluation
+* `sentiment_model_*.pkl`: Final ML model after evaluation
+* `metrics_*.json`: Model performance metrics
 
-# 🧹 Linters
+# Linters
 
 Linters help improve code quality by identifying errors, enforcing style rules, and spotting security issues without running the code.
 
 ## Linters Used
 
-- **Pylint**: Checks for coding errors and enforces standards.
-- **Flake8**: Checks code style and complexity.
-- **Bandit**: Scans for security vulnerabilities in Python code.
+* **Pylint**: Checks for coding errors and enforces standards.
+* **Flake8**: Checks code style and complexity.
+* **Bandit**: Scans for security vulnerabilities in Python code.
 
 ## How to Run
 
 To run all linters and generate reports:
 
 ### For Mac/Linux
+
 ```bash
 bash lint.sh
 ```
 
 ### For Windows
 
-Use Git Bash as your terminal
-
+Use Git Bash as your terminal:
 
 ```bash
 1. chmod +x lint.sh
 ```
+
 ```bash
-2 ./lint.sh
+2. ./lint.sh
 ```
+
+## ML Test Score
+
+<!-- ML_TEST_SCORE_START -->
+<!-- ML_TEST_SCORE_END -->
+<!-- ML_TEST_SCORE_START -->
+<!-- ML_TEST_SCORE_END -->
+<!-- ML_TEST_SCORE_START -->
+| Category              | Test Count | Automated? |
+|-----------------------|------------|------------|
+| Feature & Data         | ✅ 5        | ✅         |
+| Model Development      | ✅ 5        | ✅         |
+| ML Infrastructure      | ✅ 2        | ✅         |
+| Monitoring             | ✅ 2        | ✅         |
+| Mutamorphic Testing    | ✅ 3        | ✅         |
+| Preprocessing Module   | ✅ 2        | ✅         |
+| Training Module        | ✅ 5        | ✅         |
+| Evaluation Module      | ✅ 4        | ✅         |
+
+**Final Score:** 12/12
+<!-- ML_TEST_SCORE_END -->
