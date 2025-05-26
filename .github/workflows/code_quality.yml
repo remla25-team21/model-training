@@ -97,10 +97,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet; then
+          git checkout ${{ github.head_ref }} # Checkout the head branch
+          if ! git diff --quiet README.md; then # Check only README.md for changes
             git add README.md
             git commit -m "Update README with lint, coverage, and ML test score"
-            git push
+            git push origin HEAD:${{ github.head_ref }} # Push to the head branch
           else
             echo "No changes to commit."
           fi
