@@ -217,6 +217,8 @@ To run all linters and generate reports:
 The quality and correctness of the ML components are assessed through a series of tests.
 
 <!-- ML_TEST_SCORE_START -->
+<!-- ML_TEST_SCORE_END -->
+<!-- ML_TEST_SCORE_START -->
 | Category              | Test Count | Automated? |
 |-----------------------|------------|------------|
 | Feature & Data         | ✅ 5        | ✅         |
