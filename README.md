@@ -121,11 +121,9 @@ dvc exp show
 
 For more details on collaborating with DVC, refer to [./docs/dvc-ref.md](./docs/dvc-ref.md).
 
-## Troubleshooting
+### Troubleshooting
 
-### Google Authentication Issues
-
-If you encounter "This app is blocked" error during Google authentication when using DVC with Google Drive, you can download the dataset directly using one of these methods:
+If you encounter issues with DVC pulling the dataset (e.g., don't have access to the Google Drive file), you can download the dataset directly using the following commands:
 
 #### Linux/macOS
 
