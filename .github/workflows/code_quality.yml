@@ -90,12 +90,8 @@ jobs:
 
       - name: Update ML Test Score Table in README
         run: |
-          awk '
-            BEGIN {start="<!-- ML_TEST_SCORE_START -->"; end="<!-- ML_TEST_SCORE_END -->"; in_block=0}
-            $0 ~ start {print; while ((getline line < "ml_test_score.md") > 0) print line; in_block=1; next}
-            $0 ~ end {in_block=0; print; next}
-            !in_block {print}
-          ' README.md > tmp_README.md
+          awk '/<!-- ML_TEST_SCORE_START -->/{print;flag=1;next}/<!-- ML_TEST_SCORE_END -->/{flag=0;print;next}!flag' README.md > tmp_README.md
+          cat ml_test_score.md >> tmp_README.md
           mv tmp_README.md README.md
 
       - name: Update ML Test Score Badge
