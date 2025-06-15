@@ -204,6 +204,8 @@ Use Git Bash as your terminal:
 
 ## ML Test Score
 <!-- ML_TEST_SCORE_START -->
+<!-- ML_TEST_SCORE_END -->
+<!-- ML_TEST_SCORE_START -->
 | Category              | Test Count | Automated? |
 |-----------------------|------------|------------|
 | Feature & Data         | ✅ 5        | ✅         |
