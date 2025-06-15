@@ -205,13 +205,6 @@ Use Git Bash as your terminal:
 ## ML Test Score
 
 <!-- ML_TEST_SCORE_START -->
-<!-- ML_TEST_SCORE_END -->
-<!-- ML_TEST_SCORE_START -->
-<!-- ML_TEST_SCORE_END -->
-<!-- ML_TEST_SCORE_START -->
-<!-- ML_TEST_SCORE_END -->
-<!-- ML_TEST_SCORE_START -->
-<!-- ML_TEST_SCORE_END -->
 <!-- ML_TEST_SCORE_START -->
 | Category              | Test Count | Automated? |
 |-----------------------|------------|------------|
@@ -225,4 +218,13 @@ Use Git Bash as your terminal:
 | Evaluation Module      | ✅ 4        | ✅         |
 
 **Final Score:** 12/12
+<!-- ML_TEST_SCORE_END -->
+<!-- ML_TEST_SCORE_END -->
+<!-- ML_TEST_SCORE_START -->
+<!-- ML_TEST_SCORE_END -->
+<!-- ML_TEST_SCORE_START -->
+<!-- ML_TEST_SCORE_END -->
+<!-- ML_TEST_SCORE_START -->
+<!-- ML_TEST_SCORE_END -->
+<!-- ML_TEST_SCORE_START -->
 <!-- ML_TEST_SCORE_END -->
