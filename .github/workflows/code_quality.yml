@@ -82,7 +82,7 @@ jobs:
       - name: Update Coverage Badge in README
         run: |
           coverage=${{ steps.coverage.outputs.coverage_percent }}
-          badge="![Coverage](https://img.shields.io/badge/coverage-${coverage}%25-brightgreen)"
+          badge="![Coverage](https://img.shields.io/badge/coverage-${coverage}%25-brightgreen?logo=codecov)"
           sed -i "/<!-- COVERAGE_BADGE_START -->/,/<!-- COVERAGE_BADGE_END -->/c\\<!-- COVERAGE_BADGE_START -->\n$badge\n<!-- COVERAGE_BADGE_END -->" README.md
 
 
