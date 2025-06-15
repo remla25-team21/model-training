@@ -5,7 +5,7 @@
 <!-- PYLINT_BADGE_END -->
 
 <!-- COVERAGE_BADGE_START -->
-![Coverage](https://codecov.io/github/remla25-team21/model-training/branch/feat%2Fa4-ml-testing/graph/badge.svg?token=L9ICV9K86O)
+![Coverage](https://img.shields.io/badge/coverage-97%25-brightgreen?logo=codecov)
 <!-- COVERAGE_BADGE_END -->
 
 <!-- ML_SCORE_BADGE_START -->
@@ -203,7 +203,6 @@ Use Git Bash as your terminal:
 ```
 
 ## ML Test Score
-
 <!-- ML_TEST_SCORE_START -->
 <!-- ML_TEST_SCORE_END -->
 <!-- ML_TEST_SCORE_START -->

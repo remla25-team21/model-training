@@ -66,12 +66,23 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           files: coverage.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
+      
+      - name: Extract Coverage Percentage
+        id: coverage
+        run: |
+          coverage_line=$(grep -oP 'line-rate="\K[0-9.]+' coverage.xml | head -1)
+          if [[ -n "$coverage_line" ]]; then
+            percentage=$(awk "BEGIN {printf \"%.0f\", $coverage_line * 100}")
+          else
+            percentage="unknown"
+          fi
+          echo "coverage_percent=$percentage" >> $GITHUB_OUTPUT
 
       - name: Update Coverage Badge in README
         run: |
-          coverage_badge="![Coverage](https://codecov.io/github/remla25-team21/model-training/branch/feat%2Fa4-ml-testing/graph/badge.svg?token=L9ICV9K86O)"
-          sed -i "/<!-- COVERAGE_BADGE_START -->/,/<!-- COVERAGE_BADGE_END -->/c\\<!-- COVERAGE_BADGE_START -->\n$coverage_badge\n<!-- COVERAGE_BADGE_END -->" README.md
+          coverage=${{ steps.coverage.outputs.coverage_percent }}
+          badge="![Coverage](https://img.shields.io/badge/coverage-${coverage}%25-brightgreen?logo=codecov)"
+          sed -i "/<!-- COVERAGE_BADGE_START -->/,/<!-- COVERAGE_BADGE_END -->/c\\<!-- COVERAGE_BADGE_START -->\n$badge\n<!-- COVERAGE_BADGE_END -->" README.md
 
       - name: Calculate ML Test Score
         run: python ml_test_score.py
