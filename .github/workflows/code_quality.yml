@@ -85,15 +85,13 @@ jobs:
           badge="![Coverage](https://img.shields.io/badge/coverage-${coverage}%25-brightgreen?logo=codecov)"
           sed -i "/<!-- COVERAGE_BADGE_START -->/,/<!-- COVERAGE_BADGE_END -->/c\\<!-- COVERAGE_BADGE_START -->\n$badge\n<!-- COVERAGE_BADGE_END -->" README.md
 
-
       - name: Calculate ML Test Score
         run: python ml_test_score.py
 
       - name: Update ML Test Score Table in README
         run: |
-          awk '/<!-- ML_TEST_SCORE_START -->/{print;flag=1;next}/<!-- ML_TEST_SCORE_END -->/{flag=0;print;next}!flag' README.md > tmp_README.md
-          cat ml_test_score.md >> tmp_README.md
-          mv tmp_README.md README.md
+          content=$(<ml_test_score.md)
+          sed -i "/<!-- ML_TEST_SCORE_START -->/,/<!-- ML_TEST_SCORE_END -->/c\\<!-- ML_TEST_SCORE_START -->\n${content}\n<!-- ML_TEST_SCORE_END -->" README.md
 
       - name: Update ML Test Score Badge
         run: |
